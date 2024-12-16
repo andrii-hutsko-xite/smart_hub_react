@@ -2,7 +2,11 @@
   
   --color-neutral-white: #FCFCFC;
   --color-neutral-100: #EDEDED;
+  --color-neutral-200: #DADADA;
+  --color-neutral-900: #2D2D2D;
   --color-neutral-black: #191919;
+  --color-blue-regular: #0080D8;
+  --color-blue-swift: #C8DBFF;
 
   font-family: "DM Sans";
 
@@ -18,6 +22,7 @@ body {
 }
 
 html, body, #root {
+  width: 100%;
   height: 100%;
 }
 
@@ -28,4 +33,11 @@ code {
 
 a {
   color: var(--color-neutral-black);
+}
+
+h2 {
+  all: unset;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-neutral-900);
 }
