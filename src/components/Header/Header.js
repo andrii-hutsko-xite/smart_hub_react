@@ -1,9 +1,33 @@
 import "./Header.css";
+import { useState, useEffect } from "react";
 
 function Header() {
 
+    const [header_detached, setHeader] = useState(false);
+
+    useEffect(() => {
+        function checkForHeader() {
+
+            const scroll_y = window.scrollY;
+            
+            if (scroll_y === 0) {
+                setHeader(false);
+            } else if (scroll_y > 0) {
+                setHeader(true);
+            }
+
+        }
+
+        window.addEventListener("scroll", checkForHeader);
+
+        return () => {
+            window.removeEventListener("scroll", checkForHeader)
+        }
+
+    }, [])
+
     return (
-        <header>
+        <header className={header_detached ? "ontop" : "embeded"}>
             <div className="content">
                 <div className="links">
                     <a href="./">Delivery & Payment</a>

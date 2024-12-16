@@ -1,0 +1,49 @@
+section {
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+
+    .title {
+
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        align-items: center;
+
+    }
+
+    .content {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .brand_item {
+
+            width: 208px;
+            height: 112px;
+            border: 2px solid var(--color-neutral-200);
+            border-radius: 6px;
+            box-sizing: border-box;
+            background-size: contain;
+        
+        }
+        
+        .brand_item:hover {
+        
+            background-color: var(--color-neutral-100);
+            cursor: pointer;
+        
+        }
+
+        .brand_item:active {
+
+            background-color: var(--color-neutral-200);
+
+        }
+        
+    }
+
+}

@@ -1,12 +1,12 @@
 header {
     
+    position: absolute;
     display: flex;
     width: 100%;
     justify-content: center;
     padding-top: 16px;
     padding-bottom: 24px;
     background-color: var(--color-neutral-white);
-    border-bottom: 2px solid var(--color-neutral-100);
     box-sizing: border-box;
 
     .content {
@@ -52,12 +52,14 @@ header {
 
 .embeded {
 
-    position: static;
+    position: absolute;
+    border-bottom: 2px solid var(--color-neutral-100);
 
 }
 
 .ontop {
 
     position: fixed;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
 
 }
