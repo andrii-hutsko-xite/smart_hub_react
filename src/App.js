@@ -1,22 +1,19 @@
 import './App.css';
-import Header from './components/Header/Header';
-import Banner from './components/Banner/Banner';
-import Footer from './components/Footer/Footer';
-import PromoShelf from './components/PromoShelf/PromoShelf';
-import Brands from './components/Brands/Brands';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home/Home";
+import AllProducts from "./components/AllProducts/AllProducts";
+import ProductPage from './components/ProductPage/ProductPage';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <div className='main-content'>
-        <Banner />
-        <PromoShelf title="Black Friday Sale!" top="16px" />
-        <Brands />
-        <PromoShelf title="Popular Now!" top="40px" />
-      </div>
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/all-products" element={<AllProducts />} />
+        <Route path="/all-products/product/:id" element={<ProductPage /> } />
+      </Routes>
+    </Router>
+    
   );
 }
 

@@ -1,12 +1,4 @@
 :root {
-  
-  --color-neutral-white: #FCFCFC;
-  --color-neutral-100: #EDEDED;
-  --color-neutral-200: #DADADA;
-  --color-neutral-900: #2D2D2D;
-  --color-neutral-black: #191919;
-  --color-blue-regular: #0080D8;
-  --color-blue-swift: #C8DBFF;
 
   font-family: "DM Sans";
 
@@ -34,6 +26,20 @@ code {
 
 a {
   color: var(--color-neutral-black);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--color-blue-dark);
+}
+
+a:active {
+  color: var(--color-neutral-900);
+}
+
+a:disabled {
+  color: var(--color-neutral-600);
 }
 
 h2 {

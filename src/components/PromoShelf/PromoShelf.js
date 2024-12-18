@@ -1,5 +1,6 @@
 import "./PromoShelf.css";
 import ItemCard from "../ItemCard/ItemCard";
+import { Link } from "react-router-dom";
 
 function PromoShelf({ top, title }) {
 
@@ -12,14 +13,16 @@ function PromoShelf({ top, title }) {
         <section style={styles}>
             <div className="title">
                 <h2>{title || "Title"}</h2>
-                <a href="./">All products</a>
+                <Link to="/all-products">
+                    <a href="./">All products</a>
+                </Link>
             </div>
             <div className="content">
-                <ItemCard />
-                <ItemCard />
-                <ItemCard />
-                <ItemCard />
-                <ItemCard />
+                <ItemCard itemObject={{}} />
+                <ItemCard itemObject={{}} />
+                <ItemCard itemObject={{}} />
+                <ItemCard itemObject={{}} />
+                <ItemCard itemObject={{}} />
 
             </div>
         </section>

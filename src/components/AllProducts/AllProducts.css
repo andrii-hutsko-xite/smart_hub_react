@@ -1,0 +1,35 @@
+.secondary-content {
+
+    display: flex;
+    flex-direction: row;
+    margin-top: 32px;
+    gap: 24px;
+
+    .filters-plug {
+
+        min-width: 216px;
+        height: 720px;
+        border-right: 2px solid var(--color-neutral-100);
+        box-sizing: border-box;
+        
+    }
+
+    .products-container-plug {
+
+        .sorting-plug {
+
+        }
+
+        .showcase-plug {
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 32px;
+            row-gap: 32px;
+
+        }
+
+    }
+
+}

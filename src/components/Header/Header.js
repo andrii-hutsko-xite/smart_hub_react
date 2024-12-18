@@ -1,5 +1,6 @@
 import "./Header.css";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Header() {
 
@@ -35,7 +36,9 @@ function Header() {
                     <a href="./">FAQ</a>
                 </div>
                 <div className="main">
-                    <img src="./media/logo.svg" alt='logo'/>
+                    <Link to="/">
+                        <img src='/media/logo.svg' alt='logo'/>
+                    </Link>
                     <div className="controls">
                         <input type="text" placeholder="Search" />
                         <button>Log in</button>
