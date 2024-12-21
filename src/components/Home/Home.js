@@ -12,9 +12,9 @@ function Home() {
             <Header />
             <div className='main-content'>
                 <Banner />
-                <PromoShelf title="Black Friday Sale!" top="16px" />
+                <PromoShelf title="Black Friday Sale!" top="16px" promo_name={"friday"} />
                 <Brands />
-                <PromoShelf title="Popular Now!" top="40px" />
+                <PromoShelf title="Popular Now!" top="40px" promo_name={"popular"} />
             </div>
             <Footer />
         </div>

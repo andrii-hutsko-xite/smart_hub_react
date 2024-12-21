@@ -1,5 +1,6 @@
 import "./ItemCard.css";
 import Price from "../Price/Price";
+import Rating from "../Rating/Rating";
 
 function ItemCard({ itemObject }) {
 
@@ -8,11 +9,11 @@ function ItemCard({ itemObject }) {
         <div className="item-container">
             <img src={ itemObject.image_main } alt={""} />
             <div className="details">
-                <div className="title">
-                    <div className="rating"></div>
-                    <h2>{ itemObject.brand + " " + itemObject.model }</h2>
+                <div className="item-title">
+                    <Rating rating={3.4} />
+                    <p className="item-name">{ itemObject.brand + " " + itemObject.model }</p>
                 </div>
-                <Price price={ itemObject.price } />
+                <Price price={ itemObject.price } usual_price={ itemObject.usual_price }/>
             </div>
         </div>
 

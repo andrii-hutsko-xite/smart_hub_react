@@ -4,10 +4,10 @@ import BrandItem from "../BrandItem/BrandItem";
 function Brands() {
 
     const brand_images = [
-        "./media/brands/brands-apple.png",
-        "./media/brands/brands-samsung.png",
-        "./media/brands/brands-google.png",
-        "./media/brands/brands-xiaomi.png"
+        "./media/brands/brands-apple.svg",
+        "./media/brands/brands-samsung.svg",
+        "./media/brands/brands-google.svg",
+        "./media/brands/brands-xiaomi.svg"
     ]
 
     return (

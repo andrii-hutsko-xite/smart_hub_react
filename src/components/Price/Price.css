@@ -1,0 +1,38 @@
+.price-container {
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    p {
+        all: unset;
+    }
+
+    .usual {
+
+        font-size: 18px;
+        color: var(--color-neutral-800);
+
+    }
+
+    .main {
+
+        font-size: 22px;
+        font-weight: 700;
+
+    }
+
+    .reg {
+
+        color: var(--color-neutral-800);
+
+    }
+
+    .deal {
+
+        color: var(--color-red-regular);
+
+    }
+
+
+}

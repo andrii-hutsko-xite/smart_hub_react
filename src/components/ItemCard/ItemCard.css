@@ -1,8 +1,10 @@
 .item-container {
 
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     width: 208px;
     height: 360px;
-    background-color: var(--color-neutral-200);
 
     img {
 
@@ -12,8 +14,30 @@
     }
 
     .details {
-    
         
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        height: 133px;
+
+        .item-title {
+
+            display: flex;
+            flex-direction: column;
+            height: 73px;
+            gap: 8px;
+
+            .item-name {
+                
+                all: unset;
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 24px;
+                height: 42px;
+
+            }
+
+        }
 
     }
 
