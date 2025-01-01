@@ -3,6 +3,7 @@ import Banner from '../Banner/Banner';
 import Footer from '../Footer/Footer';
 import PromoShelf from '../PromoShelf/PromoShelf';
 import Brands from '../Brands/Brands';
+import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 
 function Home() {
 
@@ -11,6 +12,7 @@ function Home() {
         <div className="App">
             <Header />
             <div className='main-content'>
+                <Breadcrumbs />
                 <Banner />
                 <PromoShelf title="Black Friday Sale!" top="16px" promo_name={"friday"} />
                 <Brands />

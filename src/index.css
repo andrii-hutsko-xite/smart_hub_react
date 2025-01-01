@@ -42,9 +42,22 @@ a:disabled {
   color: var(--color-neutral-600);
 }
 
+h1 {
+  all: unset;
+  font-size: 48px;
+  font-weight: 600;
+  color: var(--color-neutral-900);
+}
+
 h2 {
   all: unset;
   font-size: 24px;
   font-weight: 600;
   color: var(--color-neutral-900);
+}
+
+p {
+  all: unset;
+  font-size: 18px;
+  color: var(--color-neutral-black);
 }

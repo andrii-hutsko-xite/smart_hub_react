@@ -1,0 +1,40 @@
+.pagination-button-base {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--color-neutral-800);
+    border-radius: 6px;
+    user-select: none;
+
+}
+
+.pagination-button-other {
+
+    cursor: pointer;
+
+}
+
+.pagination-button-other:hover {
+
+    background-color: var(--color-neutral-100);
+
+}
+
+.pagination-button-other:active {
+
+    background-color: var(--color-neutral-200);
+
+}
+
+.pagination-button-current {
+
+    border: 2px solid var(--color-blue-regular);
+    box-sizing: border-box;
+
+}

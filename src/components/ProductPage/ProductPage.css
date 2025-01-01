@@ -1,0 +1,45 @@
+.product-top-details {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+
+}
+
+.artikul-and-reviews {
+
+    margin-top: 28px;
+
+}
+
+.product-double-container {
+
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+
+}
+
+.product-right-column {
+
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+
+}
+
+.product-actions {
+
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+}
+
+.product-specs-container {
+
+    display: flex;
+
+}

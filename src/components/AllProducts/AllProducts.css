@@ -16,9 +16,20 @@
 
     .products-container-plug {
 
-        .sorting-plug {
+        .products-modifiers {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .sorting-plug {
+
+            }
+
 
         }
+
+        
 
         .showcase-plug {
 
@@ -27,6 +38,7 @@
             flex-wrap: wrap;
             gap: 32px;
             row-gap: 32px;
+            margin-top: 40px;
 
         }
 

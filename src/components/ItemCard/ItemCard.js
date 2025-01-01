@@ -7,10 +7,10 @@ function ItemCard({ itemObject }) {
     return (
 
         <div className="item-container">
-            <img src={ itemObject.image_main } alt={""} />
+            <img src={itemObject.image_main} alt={""} />
             <div className="details">
                 <div className="item-title">
-                    <Rating rating={3.4} />
+                    <Rating rating={itemObject.rating} />
                     <p className="item-name">{ itemObject.brand + " " + itemObject.model }</p>
                 </div>
                 <Price price={ itemObject.price } usual_price={ itemObject.usual_price }/>

@@ -30,6 +30,8 @@ function Banner() {
                             return (
                                 <div className="dot" key={index} onClick={() => {
                                     updateBanner(banner_images[index])
+                                    console.log("clicked!");
+                                    
                                 }}></div>
                             )
                         }
