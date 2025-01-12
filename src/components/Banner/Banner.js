@@ -17,7 +17,7 @@ function Banner() {
 
     return (
         <div className="banner">
-            <img src={current_banner} alt="" />
+            <img className="banner-image" src={current_banner} alt="" />
             <div className="controls">
                 {
                     banner_images.map((image, index) => {
@@ -29,9 +29,7 @@ function Banner() {
                         } else {
                             return (
                                 <div className="dot" key={index} onClick={() => {
-                                    updateBanner(banner_images[index])
-                                    console.log("clicked!");
-                                    
+                                    updateBanner(banner_images[index])                                    
                                 }}></div>
                             )
                         }

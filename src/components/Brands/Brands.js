@@ -1,5 +1,6 @@
 import "./Brands.css";
 import BrandItem from "../BrandItem/BrandItem";
+import { Link } from "react-router-dom";
 
 function Brands() {
 
@@ -7,7 +8,8 @@ function Brands() {
         "./media/brands/brands-apple.svg",
         "./media/brands/brands-samsung.svg",
         "./media/brands/brands-google.svg",
-        "./media/brands/brands-xiaomi.svg"
+        "./media/brands/brands-xiaomi.svg",
+        "./media/brands/all-brands.svg"
     ]
 
     return (
@@ -18,13 +20,19 @@ function Brands() {
             </div>
             <div className="content">
                 {
-                    brand_images.map((element, index) => {
+                    brand_images.map((element, index, array) => {
                         return (
-                            <BrandItem key={index} img_path={element} />
+                            (index === array.length - 1) ? (
+                                <Link to={`/all-products`} key={index}>
+                                    <BrandItem key={index} img_path={element} />
+                                </Link>
+                                ) : (
+                                <BrandItem key={index} img_path={element} />
+                            )
+                            
                         )
                     })
                 }
-                <BrandItem />
             </div>
         </section>
 

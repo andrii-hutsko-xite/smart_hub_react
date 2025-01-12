@@ -12,17 +12,18 @@ import Favourite from "../Icons/Favourite";
 
 function ProductPage() {
     
+    // Breadcrumbs
     const location = useLocation();
 
     const product_id = location.pathname.split("/")[2];    
     
-
-    // console.log(product_id);
-
+    // response results
     const [info_response, setInfoResponse] = useState("No items found");
-
     const [imgs_response, setImgsResponse] = useState([]);
+    const [specs_response, setSpecs] = useState("Specs were not found");
 
+
+    // HTTP requests
     useEffect(() => {
 
         const url = `http://localhost:3001/product-info/${product_id}`;
@@ -49,7 +50,100 @@ function ProductPage() {
 
     }, []);
 
+    useEffect(() => {
+
+        const url =`http://localhost:3001/product-specs/${product_id}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                setSpecs(data);
+            })
+            .catch(error => console.error('Error:', error))
+
+    }, []);
+
+    // Constructing a product name
     const product_name = info_response.brand + " " + info_response.model;
+
+    const specs_arr = [
+        [
+            "Display",
+            [
+                ["Size", `${specs_response.display_size}"`],
+                ["Type", specs_response.display_type],
+                ["Refresh rate", `${specs_response.display_refresh}Hz`]
+            ]
+        ],
+        [
+            "Processor",
+            [
+                ["Chipset", specs_response.cpu_name],
+                ["Architecture", `${specs_response.cpu_technology}nm`]
+            ]
+        ],
+        [
+            "Operating system",
+            [
+                ["OS version", specs_response.os_version]
+            ]
+        ],
+        [
+            "Memory",
+            [
+                ["RAM", `${specs_response.memory_ram}GB`],
+                ["Storage", `${specs_response.memory_storage}GB`]
+            ]
+        ],
+        [
+            "Battery",
+            [
+                ["Capacity", `${specs_response.battery_capacity}mAh`],
+                ["Charging speed", `${specs_response.battery_speed}W`],
+                ["Wireless charging", ((specs_response.battery_wireless !== 0) ? `${specs_response.battery_wireless}W` : "No")]
+            ]
+        ],
+        [
+            "Connectivity",
+            [
+                ["5G", ((specs_response.conn_cell > 0) ? "Yes" : "No")],
+                ["WI-FI", ((specs_response.conn_wifi > 0) ? "Yes" : "No")],
+                ["Bluetooth", specs_response.conn_bluetooth],
+                ["NFC", ((specs_response.conn_nfc !== 0) ? "Yes" : "No")]
+            ]
+        ]
+    ]
+
+    function specsContructor(array) {
+
+        return array.map((section, index)=> {
+
+            return (
+                <div className="product-specs-info-box" key={index}>
+                    <h3>{section[0]}</h3>
+                    <table className="product-specs-info-table">
+                        <tbody>
+                            {
+                                section[1].map((row, index) => {
+                                    return (
+                                        <tr className="product-table-row">
+                                            <th className="product-table-title">{row[0]}</th>
+                                            <td className="product-table-cell">{row[1]}</td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            )
+
+        });
+
+    }
+
+    // console.log(specs_object);
+    
 
     return (
 
@@ -75,15 +169,9 @@ function ProductPage() {
                         <div className="product-specs-container">
                             <h2>Specifications</h2>
                             <div className="product-specs-info">
-                                <div className="product-specs-info-box">
-                                    <h3>Display</h3>
-                                    <table className="product-specs-info-table">
-                                        <tr>
-                                           <td>Size</td>
-                                           <td>6.1"</td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                {
+                                    specsContructor(specs_arr)
+                                }
                             </div>
                         </div>
                     </div>

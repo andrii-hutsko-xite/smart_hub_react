@@ -6,7 +6,7 @@ header {
     justify-content: center;
     padding-top: 16px;
     padding-bottom: 24px;
-    background-color: var(--color-neutral-white);
+    background-color: #FFFFFF;
     box-sizing: border-box;
 
     .content {

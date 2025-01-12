@@ -56,6 +56,13 @@ h2 {
   color: var(--color-neutral-900);
 }
 
+h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-neutral-800)
+}
+
 p {
   all: unset;
   font-size: 18px;

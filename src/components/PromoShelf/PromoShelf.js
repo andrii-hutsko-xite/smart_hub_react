@@ -9,7 +9,7 @@ function PromoShelf({ top, title, promo_name }) {
         marginTop: top || "24px"
     }
 
-    const [response, setResponse] = useState("No items found");
+    const [response, setResponse] = useState([]);
     
 
     useEffect(() => {
@@ -34,13 +34,15 @@ function PromoShelf({ top, title, promo_name }) {
             </div>
             <div className="content">
                 {
-                    Array.from(response).map((element, index) => {
+                    
+                    response.map((element, index) => {
                         return (
                             <Link to={`/all-products/${element.id}`} key={index}>
                                 <ItemCard itemObject={element} key={index} />
                             </Link>
                         )
                     })
+                    
                 }
 
             </div>
