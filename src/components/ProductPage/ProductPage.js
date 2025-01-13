@@ -9,6 +9,7 @@ import Rating from "../Rating/Rating";
 import Button from "../Button/Button";
 import IconShoppingCart from "../Icons/ShoppingCart";
 import Favourite from "../Icons/Favourite";
+import Footer from "../Footer/Footer";
 
 function ProductPage() {
     
@@ -178,6 +179,7 @@ function ProductPage() {
                 </div>
                 {/* {(imgs_response.length !== 0) ? <Gallery images={imgs_response}/> : null} */}
             </div>
+            <Footer />
         </div>
         
     )    

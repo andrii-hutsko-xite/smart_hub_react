@@ -13,7 +13,7 @@ function Checkbox({ label, isChecked, checkedAction }) {
 
         } else {
             setCheckbox(true);
-            checkedAction(label);
+            checkedAction((originalArray) => [...originalArray, label]);
         }
 
     }

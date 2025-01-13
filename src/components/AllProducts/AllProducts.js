@@ -19,10 +19,10 @@ function AllProducts() {
 
     // Settings filtering states
     const [availableBrands, setAvailableBrands] = useState([]);
-    const [filteredBrands, setFilteredBrands] = useState([]);    
+    const [filteredBrands, setFilteredBrands] = useState([]);
 
     useEffect(() => {
-        const url = `http://localhost:3001/products?page=${current_page}&sorting=${sortingBy}`;        
+        const url = `http://localhost:3001/products?page=${current_page}&sorting=${sortingBy}&brands=${filteredBrands}`;        
 
         fetch(url)
             .then(response => response.json())
@@ -34,18 +34,7 @@ function AllProducts() {
             })
             .catch(error => console.error('Error:', error));
 
-    }, []);
-
-    const addToArray = (newItem) => {
-        setFilteredBrands((prevArray) => [...prevArray, newItem]);
-    };
-
-    const removeFromArray = (itemToRemove) => {
-        setFilteredBrands.find()
-    }
-
-    console.log(`${filteredBrands}`);
-    
+    }, [current_page, sortingBy, filteredBrands]);
 
     return (
 
@@ -61,7 +50,7 @@ function AllProducts() {
                                 {
                                     availableBrands?.map((element, index) => {
                                         return (
-                                            <Checkbox label={element} key={element} checkedAction={addToArray} />
+                                            <Checkbox label={element} key={element} checkedAction={setFilteredBrands} />
                                         )
                                     })
                                 }

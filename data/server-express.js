@@ -42,7 +42,9 @@ app.get('/products?', (req, res) => {
 
     }
 
-    const { page, sorting } = req.query;
+    const { page, sorting, brands } = req.query;
+
+    console.log(brands);
 
     const items_per_page = 16;
     let total_records;
@@ -77,7 +79,6 @@ app.get('/products?', (req, res) => {
                         return element["brand"];
                     });
                     brandList = BrandResultOptimized;
-                    console.log(`time: ${new Date()}, brands generated: ${brandList}`);
                     
                     const data = {
                         items: rows,
@@ -86,7 +87,6 @@ app.get('/products?', (req, res) => {
                             brands: brandList
                         }
                     }
-                    console.log(`time: ${new Date()}, brands sent: ${brandList}`);
                     res.json(data);
 
                 }
