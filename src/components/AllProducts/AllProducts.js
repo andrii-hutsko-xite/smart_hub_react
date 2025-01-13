@@ -11,17 +11,15 @@ import Checkbox from '../Checkbox/Checkbox';
 
 function AllProducts() {
 
+    // Setting states
     const [response, setResponse] = useState([]);
     const [total_items, setTotal] = useState(0);
     const [current_page, setPage] = useState(1);
     const [sortingBy, setSorting] = useState("popularity");
-    const [finteringObject, setFilteringObject] = useState({
-        brands: {
-            availableBrands: null,
-            filteredBrands: []
-        }
-    });
-    
+
+    // Settings filtering states
+    const [availableBrands, setAvailableBrands] = useState([]);
+    const [filteredBrands, setFilteredBrands] = useState([]);    
 
     useEffect(() => {
         const url = `http://localhost:3001/products?page=${current_page}&sorting=${sortingBy}`;        
@@ -31,21 +29,22 @@ function AllProducts() {
             .then(data => {                
                 setResponse(data.items);
                 setTotal(data.total);
-                setFilteringObject();
-                setFilteringObject(original => ({
-                    ...original,
-                    brands: {
-                        ...original.brands,
-                        availableBrands: data.filtering.brands
-                    }
-                }))
+                setAvailableBrands(data.filtering.brands);
                 
             })
             .catch(error => console.error('Error:', error));
 
-    }, [current_page, total_items, sortingBy]);
+    }, []);
 
-    console.log(finteringObject);
+    const addToArray = (newItem) => {
+        setFilteredBrands((prevArray) => [...prevArray, newItem]);
+    };
+
+    const removeFromArray = (itemToRemove) => {
+        setFilteredBrands.find()
+    }
+
+    console.log(`${filteredBrands}`);
     
 
     return (
@@ -60,9 +59,9 @@ function AllProducts() {
                             <h2>Brands</h2>
                             <div className='filters-list'>
                                 {
-                                    finteringObject.brands.availableBrands?.map((element, index) => {
+                                    availableBrands?.map((element, index) => {
                                         return (
-                                            <Checkbox label={element} key={element} setFilters={setFilteringObject} />
+                                            <Checkbox label={element} key={element} checkedAction={addToArray} />
                                         )
                                     })
                                 }

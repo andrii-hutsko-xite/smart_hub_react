@@ -20,7 +20,7 @@ function Gallery({ images }) {
                     <div className="gallery-button" onClick={() => { if (selected_image < 3) {selectImage(selected_image + 1)}}}></div>
                 </div>
 
-                <img className="gallery-main-image" src={images[selected_image]} alt="product selected image" />
+                <img className="gallery-main-image" src={images[selected_image]} />
             
             </div>
             
@@ -31,7 +31,7 @@ function Gallery({ images }) {
                     {
                         images.map((element, index) => {
 
-                            return <img className={`gallery-small-image ${(images[selected_image] === element) ? "gallery-small-image-selected" : null}`} src={element} key={index} onClick={() => {selectImage(index)}} />
+                            return <img className={`gallery-small-image ${(images[selected_image] === element) ? "gallery-small-image-selected" : null}`} src={element} key={index} onClick={() => {selectImage(index)}} alt="product image" />
 
                         })
 

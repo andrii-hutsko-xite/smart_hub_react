@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // Connect to the database
-const db = new sqlite3.Database('./data/main.db', (err) => {
+const db = new sqlite3.Database('./main.db', (err) => {
     if (err) {
         console.error('Error opening database:', err.message);
     } else {
@@ -57,20 +57,6 @@ app.get('/products?', (req, res) => {
         }
     });
 
-    //Getting list of brands
-    let brandList;
-    db.all('SELECT DISTINCT brand FROM items', (err, brandResult) => {
-        if (err) {
-            console.log(err.message);
-        } else {
-            const BrandResultOptimized  = brandResult.map((element) => {
-                return element["brand"];
-            });
-            brandList = BrandResultOptimized;
-            
-        }
-    })
-
     const offset = (page - 1) * items_per_page;
 
     const query = `SELECT * FROM items ORDER BY ${sortingRules[sorting]} LIMIT 16 OFFSET ?`;
@@ -79,15 +65,33 @@ app.get('/products?', (req, res) => {
         if (err) {
             console.error(err.message);
             res.status(500).send('Error fetching data');
-        } else {           
-            const data = {
-                items: rows,
-                total: total_records,
-                filtering: {
-                    brands: brandList
+        } else {     
+            
+            //Getting list of brands
+            let brandList;
+            db.all('SELECT DISTINCT brand FROM items', (err, brandResult) => {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    const BrandResultOptimized  = brandResult.map((element) => {
+                        return element["brand"];
+                    });
+                    brandList = BrandResultOptimized;
+                    console.log(`time: ${new Date()}, brands generated: ${brandList}`);
+                    
+                    const data = {
+                        items: rows,
+                        total: total_records,
+                        filtering: {
+                            brands: brandList
+                        }
+                    }
+                    console.log(`time: ${new Date()}, brands sent: ${brandList}`);
+                    res.json(data);
+
                 }
-            }
-            res.json(data);
+            })
+
         }
     });
 });

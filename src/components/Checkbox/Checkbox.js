@@ -2,7 +2,7 @@ import Check from "../Icons/Check";
 import "./Checkbox.css";
 import { useState } from "react";
 
-function Checkbox({ label, isChecked, setFilters }) {
+function Checkbox({ label, isChecked, checkedAction }) {
 
     const [checked, setCheckbox] = useState((isChecked) ? isChecked : false);
 
@@ -13,13 +13,7 @@ function Checkbox({ label, isChecked, setFilters }) {
 
         } else {
             setCheckbox(true);
-            setFilters(original => ({
-                ...original,
-                brands: {
-                    ...original.brands,
-                    filteredBrands: [...(original.brands.filteredBrands || []), label]
-                }
-            }))
+            checkedAction(label);
         }
 
     }

@@ -31,7 +31,7 @@ function Dropdown({ setSorting }) {
             <label>Sort by</label>
             <div className="dropdown-button" onClick={() => {setDropdown(!dropdownOpen)}}>
                 {sortingMode}
-                <img src="/media/icons/arrow_drop_down.svg" />
+                <img src="/media/icons/arrow_drop_down.svg" alt="arrow down" />
             </div>
             {
                 toggleDroplist(dropdownOpen)
