@@ -13,23 +13,53 @@ function Banner() {
         "./media/banner/banner-04.jpg"
     ];  
     
-    const [current_banner, updateBanner] = useState(banner_images[0]);
+    const [current_banner, updateBanner] = useState(0);
+    const [cursorOverBanner, setCursorOverBanner] = useState(false);
+
+    console.log(cursorOverBanner);
 
     return (
         <div className="banner">
-            <img className="banner-image" src={current_banner} alt="" />
+            <div className="banner-image-container">
+                {
+                    (cursorOverBanner) ? (
+                        <div className="banner-image-buttons-container" onMouseEnter={() => {setCursorOverBanner(true)}}>
+                            <div className="banner-button" onClick={() => {
+                                if (current_banner > 0) {
+                                    const newBannerValue = current_banner - 1;
+                                    updateBanner(newBannerValue);
+                                }
+                            }}></div>
+                            <div className="banner-button" onClick={() => {
+                                if (current_banner < (banner_images.length - 1)) {
+                                    const newBannerValue = current_banner + 1;
+                                    updateBanner(newBannerValue);
+                                }
+                            }}></div>
+                        </div>
+                     ) : (
+                        null
+                     )
+                }
+                <img className="banner-image"
+                    src={banner_images[current_banner]}
+                    onMouseEnter={() => {setCursorOverBanner(true)}}
+                    onMouseLeave={() => {setCursorOverBanner(false)}}
+                    alt=""
+                />
+            </div>
             <div className="controls">
                 {
                     banner_images.map((image, index) => {
 
-                        if (current_banner === banner_images[index]) {
+                        if (current_banner === index) {
                             return (
                                 <div className="dot selected" key={index}></div>
                             )
                         } else {
                             return (
                                 <div className="dot" key={index} onClick={() => {
-                                    updateBanner(banner_images[index])                                    
+                                    updateBanner(index)                                    
                                 }}></div>
                             )
                         }

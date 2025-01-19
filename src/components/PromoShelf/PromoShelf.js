@@ -34,14 +34,22 @@ function PromoShelf({ top, title, promo_name }) {
             </div>
             <div className="content">
                 {
-                    
-                    response.map((element, index) => {
-                        return (
-                            <Link to={`/all-products/${element.id}`} key={index}>
-                                <ItemCard itemObject={element} key={index} />
-                            </Link>
+                    (response) ?
+                    (
+                        response.map((element, index) => {
+                            return (
+                                <Link to={`/all-products/${element.id}`} key={index}>
+                                    <ItemCard itemObject={element} key={index} />
+                                </Link>
+                            )
+                        })
+                    )
+                    :
+                    (
+                        (
+                            <p>Loading...</p>
                         )
-                    })
+                    )
                     
                 }
 

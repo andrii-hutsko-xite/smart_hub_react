@@ -8,11 +8,56 @@
     width: 1168px;
     height: 304px;
 
-    .banner-image {
+    .banner-image-container {
 
+        position: relative;
         width: 100%;
         height: 248px;
         border-radius: 16px;
+        overflow: hidden;
+
+        .banner-image-buttons-container {
+
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 1050px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            .banner-button {
+
+                width: 48px;
+                height: 48px;
+                border-radius: 6px;
+                background-color: var(--color-neutral-100);
+
+            }
+
+            .banner-button:hover {
+
+                cursor: pointer;
+                background-color: var(--color-neutral-200);
+
+            }
+
+            .banner-button:active {
+
+                cursor: pointer;
+                background-color: var(--color-neutral-600);
+
+            }
+
+        }
+
+        .banner-image {
+
+            width: 100%;
+            height: 248px;
+    
+        }
 
     }
 
