@@ -79,7 +79,7 @@ function ProductPage() {
         [
             "Processor",
             [
-                ["Chipset", specs_response.cpu_name],
+                ["Chipset", spe.cpu_namecs_response],
                 ["Architecture", `${specs_response.cpu_technology}nm`]
             ]
         ],
