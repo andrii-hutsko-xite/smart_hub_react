@@ -11,9 +11,9 @@ function Header() {
 
             const scroll_y = window.scrollY;
             
-            if (scroll_y === 0) {
+            if (scroll_y < 80) {
                 setHeader(false);
-            } else if (scroll_y > 0) {
+            } else if (scroll_y >= 80) {
                 setHeader(true);
             }
 

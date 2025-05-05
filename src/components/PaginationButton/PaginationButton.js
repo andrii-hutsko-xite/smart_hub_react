@@ -7,7 +7,9 @@ function PaginationButton({ number, current, onClick }) {
         <div
             className={`pagination-button-base ${current ? "pagination-button-current" : "pagination-button-other"}`}
             onClick={onClick}
-        >{number}</div>
+        >
+        {number}
+        </div>
 
     )
 

@@ -1,7 +1,7 @@
 import PaginationButton from "../PaginationButton/PaginationButton";
 import "./PaginationBox.css";
 
-function PaginationBox({ total, current_page, setPage }) {
+function PaginationBox({ total, current_page, setPage } : {total: number, current_page: number, setPage: Function}) {
 
     const page_number = Math.ceil(total / 16);
 

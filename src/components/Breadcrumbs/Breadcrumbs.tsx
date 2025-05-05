@@ -1,13 +1,23 @@
+import { Key } from "react";
 import "./Breadcrumbs.css";
 import { Link, useLocation } from "react-router-dom";
 
-function Breadcrumbs({ name }) {
+function Breadcrumbs({ name } : {name?: string}) {
     
-    const location = useLocation()
+    const location = useLocation();
 
-    function generateBreadcrumbs(pathname) {
+    function generateBreadcrumbs(pathname: string) {
 
-        const rules = {
+        interface RuleEntry {
+            path: string;
+            name: string;
+        }
+        
+        interface RulesDictionary {
+            [key: string]: RuleEntry;
+        }
+
+        const rules: RulesDictionary = {
             "": {
                 path: "/",
                 name: "Home"
@@ -17,8 +27,8 @@ function Breadcrumbs({ name }) {
                 name: "All Products"
             },
             "abcd": {
-                path: null,
-                name: name
+                path: "",
+                name: name ?? ""
             }
 
         }
@@ -40,13 +50,14 @@ function Breadcrumbs({ name }) {
 
             return result;
 
-        })
+        });
+
+        console.log(processed_breadcrumbs);
 
         return processed_breadcrumbs;
 
     }
     
-
     return (
 
         <div className="breadcrumbs">
@@ -54,7 +65,7 @@ function Breadcrumbs({ name }) {
                 generateBreadcrumbs(location.pathname).map((elem, index) => {
 
                     return (
-                        <Link className={(elem[2]) ? "link-disabled" : null} to={elem[1]} key={index}>{elem[0]}</Link>
+                        <Link className={(elem[2]) ? "link-disabled" : undefined} to={elem[1]} key={index}>{elem[0]}</Link>
                     )
 
                 })
