@@ -46,7 +46,11 @@ function Breadcrumbs({ name } : {name?: string}) {
 
             const isLast = (index === (array.length - 1)) ? true : false;
 
-            const result = [rules[elem].name, rules[elem].path, isLast];
+            const result = {
+                name: rules[elem].name,
+                path: rules[elem].path,
+                isLast: isLast
+            }
 
             return result;
 
@@ -65,7 +69,7 @@ function Breadcrumbs({ name } : {name?: string}) {
                 generateBreadcrumbs(location.pathname).map((elem, index) => {
 
                     return (
-                        <Link className={(elem[2]) ? "link-disabled" : undefined} to={elem[1]} key={index}>{elem[0]}</Link>
+                        <Link className={(elem.isLast) ? "link-disabled" : undefined} to={elem.path} key={index}>{elem.name}</Link>
                     )
 
                 })
