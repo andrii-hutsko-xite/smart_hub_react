@@ -10,21 +10,6 @@
         min-width: 216px;
         border-right: 2px solid var(--color-neutral-100);
         box-sizing: border-box;
-
-        .filters-box {
-
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-
-            .filters-list {
-
-                display: flex;
-                flex-direction: column;
-
-            }
-
-        }
         
     }
 

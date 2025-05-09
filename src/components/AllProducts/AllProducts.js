@@ -18,23 +18,49 @@ function AllProducts() {
     const [sortingBy, setSorting] = useState("popularity");
 
     // Settings filtering states
-    const [availableBrands, setAvailableBrands] = useState([]);
-    const [filteredBrands, setFilteredBrands] = useState([]);
+    // The AllProducts component should manage a list of all available filtering items...
+    // ... and the list showing which filters are applied
+    // I already have a mechanism which figures out which brands are available for filtering – backend is sending
+
+    const [filteringData, setFilteringData] = useState({})
+
+    // const [availableBrands, setAvailableBrands] = useState([]);
+    // const [filteredBrands, setFilteredBrands] = useState([]);
+
+    // - - - - - - - - - - - - - - - - -
+
+    function setFilterState(category, key, status) {
+        if (filteringData[category]) {
+            filteringData[category].key
+        } else {
+            console.error("Category not found");
+        }
+    }
 
     useEffect(() => {
-        const url = `http://localhost:3001/products?page=${current_page}&sorting=${sortingBy}&brands=${filteredBrands}`;        
+        const url = `http://localhost:3001/products?page=${current_page}&sorting=${sortingBy}`;        
 
         fetch(url)
             .then(response => response.json())
             .then(data => {                
                 setResponse(data.items);
                 setTotal(data.total);
-                setAvailableBrands(data.filtering.brands);
+                // Here the list of available brand is set from the backend response
+                // setAvailableBrands(data.filtering.brands);
+                setFilteringData((prevData) => ({
+                    ...prevData,
+                    "brand": data.filtering.brands.map((element) => {
+                        return {
+                            key: element,
+                            applied: false
+                        }
+                    })
+                }))
                 
             })
             .catch(error => console.error('Error:', error));
 
-    }, [current_page, sortingBy, filteredBrands]);
+    }, [current_page, sortingBy]);
 
     return (
 
@@ -48,9 +74,9 @@ function AllProducts() {
                             <h2>Brands</h2>
                             <div className='filters-list'>
                                 {
-                                    availableBrands?.map((element, index) => {
+                                    filteringData.brand?.map(({key, isApplied}) => {
                                         return (
-                                            <Checkbox label={element} key={element} checkedAction={setFilteredBrands} />
+                                            <Checkbox label={key} key={key} isChecked={isApplied} />
                                         )
                                     })
                                 }

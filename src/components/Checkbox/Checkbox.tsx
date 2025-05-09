@@ -2,7 +2,12 @@ import Check from "../Icons/Check";
 import "./Checkbox.css";
 import { useState } from "react";
 
-function Checkbox({ label, isChecked, checkedAction }) {
+interface CheckboxProps {
+    label: string;
+    isChecked?: boolean;
+}
+
+function Checkbox({label, isChecked}: CheckboxProps) {    
 
     const [checked, setCheckbox] = useState((isChecked) ? isChecked : false);
 
@@ -10,10 +15,9 @@ function Checkbox({ label, isChecked, checkedAction }) {
 
         if (checked) {
             setCheckbox(false);
-
         } else {
             setCheckbox(true);
-            checkedAction((originalArray) => [...originalArray, label]);
+            // checkedAction((originalArray) => [...originalArray, label]);
         }
 
     }
@@ -26,7 +30,9 @@ function Checkbox({ label, isChecked, checkedAction }) {
                     (checked) ? (<Check color={"#0080D8"} />) : null
                 }
             </div>
-            <label className="checkbox-label" onMouseUp={() => {toggleCheck()}}>{(label) ? label : "Label"}</label>
+            <label className="checkbox-label" onMouseUp={() => {toggleCheck()}}>
+                {(label) ? (label) : "Label"}
+            </label>
         </div>
 
     )

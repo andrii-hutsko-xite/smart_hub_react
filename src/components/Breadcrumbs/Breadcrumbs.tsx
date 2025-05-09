@@ -56,8 +56,6 @@ function Breadcrumbs({ name } : {name?: string}) {
 
         });
 
-        console.log(processed_breadcrumbs);
-
         return processed_breadcrumbs;
 
     }
