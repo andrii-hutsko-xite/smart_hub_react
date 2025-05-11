@@ -42,28 +42,52 @@ app.get('/products?', (req, res) => {
 
     }
 
-    const { page, sorting, brands } = req.query;
+    const { page, sorting, brand } = req.query;
 
-    console.log(brands);
+    console.log("Received brand query param:", brand); // For debugging
 
     const items_per_page = 16;
     let total_records;
+    let queryParams = [];
+    let whereClauses = [];
+
+    // Build WHERE clause for brand filtering
+    if (brand) {
+        // If 'brand' is a single string, convert to array for consistent handling
+        const brandsToFilter = Array.isArray(brand) ? brand : [brand];
+        if (brandsToFilter.length > 0) {
+            whereClauses.push(`brand IN (${brandsToFilter.map(() => '?').join(',')})`);
+            queryParams.push(...brandsToFilter);
+        }
+    }
+
+    let countQuery = 'SELECT COUNT(*) AS total_records FROM items';
+    if (whereClauses.length > 0) {
+        countQuery += ` WHERE ${whereClauses.join(' AND ')}`;
+    }
     
     //Requesting total number of records to decide what to return
-    db.get('SELECT COUNT(*) AS total_records FROM items', [], (err, row) => {
+    // Pass queryParams for brand filtering to the count query as well
+    db.get(countQuery, queryParams, (err, row) => {
         if (err) {
             console.error(err.message);
+            // It's good practice to send an error response if this critical query fails
+            // For now, we'll let the main query handle the response
         } else {
             total_records = row.total_records;
-            
         }
     });
 
     const offset = (page - 1) * items_per_page;
+    queryParams.push(offset); // Add offset to the end of queryParams for the main query
 
-    const query = `SELECT * FROM items ORDER BY ${sortingRules[sorting]} LIMIT 16 OFFSET ?`;
+    let baseQuery = `SELECT * FROM items`;
+    if (whereClauses.length > 0) {
+        baseQuery += ` WHERE ${whereClauses.join(' AND ')}`;
+    }
+    const finalQuery = `${baseQuery} ORDER BY ${sortingRules[sorting]} LIMIT ${items_per_page} OFFSET ?`;
 
-    db.all(query, [offset], (err, rows) => {
+    db.all(finalQuery, queryParams, (err, rows) => {
         if (err) {
             console.error(err.message);
             res.status(500).send('Error fetching data');
