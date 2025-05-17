@@ -3,7 +3,7 @@ import Header from '../Header/Header';
 import ItemCard from '../ItemCard/ItemCard';
 import "./AllProducts.css";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PaginationBox from '../PaginationBox/PaginationBox';
 import Footer from '../Footer/Footer';
 import Dropdown from '../Dropdown/Dropdown';
@@ -36,16 +36,30 @@ function AllProducts() {
         storage: {},
         // create – creates a new category with a new key inside and it's default value is false
         create: function(category, key) {
-            setFilteringData((prevData) => ({
-                ...prevData,
-                storage: {
-                    ...prevData.storage,
-                    [category]: {
-                        ...(prevData.storage[category] || {}), // Ensure category exists or initialize as empty
-                        [key]: false
+            setFilteringData(prevFilteringData => {
+                const newFilterStates = {};
+                let hasNewFilterKeys = false;
+                if (category) {
+                    if (!prevFilteringData.storage[category] || typeof prevFilteringData.storage[category][key] === 'undefined') {
+                        newFilterStates[key] = false; // Default to not checked
+                        hasNewFilterKeys = true;
                     }
                 }
-            }));
+
+                if (hasNewFilterKeys) {
+                    return {
+                        ...prevFilteringData,
+                        storage: {
+                            ...prevFilteringData.storage,
+                            brand: {
+                                ...(prevFilteringData.storage[category] || {}), // Preserve existing brands
+                                ...newFilterStates // Add new brands
+                            }
+                        }
+                    };
+                }
+                return prevFilteringData; // No change to filteringData if no new brands
+            });
         },
         set: function(category, key, value) {
             // first we need to check if such a category and a key exist
@@ -74,8 +88,7 @@ function AllProducts() {
         }
 
     });
-
-    // console.log(response);
+    
     
 
     // console.log(filteringData.storage);
@@ -111,33 +124,38 @@ function AllProducts() {
 
                 // Batch initial brand filter creation to avoid multiple fetches
                 // if filteringData.storage is a dependency of this useEffect.
-                setFilteringData(prevFilteringData => {
-                    const newBrandStates = {};
-                    let hasNewBrands = false;
-                    if (data.filtering && data.filtering.brands) {
-                        data.filtering.brands.forEach(brandName => {
-                            // Only add if not already present in the 'brand' category
-                            if (!prevFilteringData.storage.brand || typeof prevFilteringData.storage.brand[brandName] === 'undefined') {
-                                newBrandStates[brandName] = false; // Default to not checked
-                                hasNewBrands = true;
-                            }
-                        });
-                    }
 
-                    if (hasNewBrands) {
-                        return {
-                            ...prevFilteringData,
-                            storage: {
-                                ...prevFilteringData.storage,
-                                brand: {
-                                    ...(prevFilteringData.storage.brand || {}), // Preserve existing brands
-                                    ...newBrandStates // Add new brands
-                                }
-                            }
-                        };
-                    }
-                    return prevFilteringData; // No change to filteringData if no new brands
+                data.filtering.brands.forEach(brandName => {
+                    filteringData.create("brand", brandName);
                 });
+                
+                // setFilteringData(prevFilteringData => {
+                //     const newBrandStates = {};
+                //     let hasNewBrands = false;
+                //     if (data.filtering && data.filtering.brands) {
+                //         data.filtering.brands.forEach(brandName => {
+                //             // Only add if not already present in the 'brand' category
+                //             if (!prevFilteringData.storage.brand || typeof prevFilteringData.storage.brand[brandName] === 'undefined') {
+                //                 newBrandStates[brandName] = false; // Default to not checked
+                //                 hasNewBrands = true;
+                //             }
+                //         });
+                //     }
+
+                //     if (hasNewBrands) {
+                //         return {
+                //             ...prevFilteringData,
+                //             storage: {
+                //                 ...prevFilteringData.storage,
+                //                 brand: {
+                //                     ...(prevFilteringData.storage.brand || {}), // Preserve existing brands
+                //                     ...newBrandStates // Add new brands
+                //                 }
+                //             }
+                //         };
+                //     }
+                //     return prevFilteringData; // No change to filteringData if no new brands
+                // });
             })
             .catch(error => console.error('Error:', error));
 

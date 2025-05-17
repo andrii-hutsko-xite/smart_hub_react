@@ -4,13 +4,38 @@ import { Link } from "react-router-dom";
 
 function Brands() {
 
-    const brand_images = [
-        "./media/brands/brands-apple.svg",
-        "./media/brands/brands-samsung.svg",
-        "./media/brands/brands-google.svg",
-        "./media/brands/brands-xiaomi.svg",
-        "./media/brands/all-brands.svg"
-    ]
+    // const brand_images = [
+    //     "./media/brands/brands-apple.svg",
+    //     "./media/brands/brands-samsung.svg",
+    //     "./media/brands/brands-google.svg",
+    //     "./media/brands/brands-xiaomi.svg",
+    //     "./media/brands/all-brands.svg"
+    // ];
+
+    const brandData = {
+        apple: {
+            image: "./media/brands/brands-apple.svg",
+            filterKey: "Apple"
+        },
+        samsung: {
+            image: "./media/brands/brands-samsung.svg",
+            filterKey: "Samsung"
+        },
+        google: {
+            image: "./media/brands/brands-google.svg",
+            filterKey: "Google"
+        },
+        xiaomi: {
+            image: "./media/brands/brands-xiaomi.svg",
+            filterKey: "Xiaomi"
+        },
+        all: {
+            image: "./media/brands/all-brands.svg",
+            filterKey: null
+        }
+    }
+
+    console.log(Object.keys(brandData));
 
     return (
 
@@ -20,18 +45,31 @@ function Brands() {
             </div>
             <div className="content">
                 {
-                    brand_images.map((element, index, array) => {
+                    
+                    Object.keys(brandData).map((brand) => {
+
+                        const {image, filterKey} = brandData[brand];
+
                         return (
-                            (index === array.length - 1) ? (
-                                <Link to={`/all-products`} key={index}>
-                                    <BrandItem key={index} img_path={element} />
-                                </Link>
-                                ) : (
-                                <BrandItem key={index} img_path={element} />
-                            )
-                            
+                            <Link
+                                to={{
+                                    pathname: '/all-products',
+                                    state: {
+                                        filter: {
+                                            brand: {
+                                                [filterKey]: true
+                                            }
+                                        }
+                                    }
+                                }}
+                                key={filterKey}
+                                >
+                                <BrandItem key={filterKey} img_path={image} />
+                            </Link>
                         )
+                        
                     })
+
                 }
             </div>
         </section>
