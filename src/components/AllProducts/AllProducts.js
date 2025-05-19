@@ -11,11 +11,15 @@ import Checkbox from '../Checkbox/Checkbox';
 
 function AllProducts() {
 
+    console.log("this component has been rendered");
+
     // Setting states
     const [response, setResponse] = useState([]);
     const [total_items, setTotal] = useState(0);
     const [current_page, setPage] = useState(1);
     const [sortingBy, setSorting] = useState("popularity");
+    const location = useLocation();
+
 
     // Settings filtering states
     // The AllProducts component should manage a list of all available filtering items...
@@ -37,11 +41,11 @@ function AllProducts() {
         // create – creates a new category with a new key inside and it's default value is false
         create: function(category, key) {
             setFilteringData(prevFilteringData => {
-                const newFilterStates = {};
+                const newFilterCategories = {};
                 let hasNewFilterKeys = false;
                 if (category) {
                     if (!prevFilteringData.storage[category] || typeof prevFilteringData.storage[category][key] === 'undefined') {
-                        newFilterStates[key] = false; // Default to not checked
+                        newFilterCategories[key] = false; // Default to not checked
                         hasNewFilterKeys = true;
                     }
                 }
@@ -53,7 +57,7 @@ function AllProducts() {
                             ...prevFilteringData.storage,
                             brand: {
                                 ...(prevFilteringData.storage[category] || {}), // Preserve existing brands
-                                ...newFilterStates // Add new brands
+                                ...newFilterCategories // Add new brands
                             }
                         }
                     };
@@ -66,33 +70,85 @@ function AllProducts() {
             // once the necessary category and the key are detected, a setting function is being called
             // calling this function should initiate fetching data from backend and some components re-render
             // thre should be a difference between alavailable items and filtered items in terms what is being shown to users
-            if (category in this.storage) {
-                if (key in this.storage[category]) {
-                    setFilteringData((prevData) => ({
-                    ...prevData,
-                    storage: {
-                        ...prevData.storage,
-                        [category]: {
-                            ...prevData.storage[category],
-                            [key]: value
+
+
+            // if (category in this.storage) {
+            //     if (key in this.storage[category]) {
+            //         setFilteringData(prevData => {
+            //             let hasNewFilterValues = false;
+            //             return (
+            //                 {
+            //                     ...prevData,
+            //                     storage: {
+            //                         ...prevData.storage,
+            //                         [category]: {
+            //                             ...prevData.storage[category],
+            //                             [key]: value
+            //                         }
+            //                     }
+            //                 }
+            //             )
+                        
+            //     });
+            //     } else {
+            //         console.error(`Filter key "${key}" doesn't exist in category "${category}".`);
+            //     }
+            // } else {
+            //     console.error(`Filter category "${category}" doesn't exist`)
+            // }
+
+            setFilteringData(prevFilteringData => {
+                let hasFilterStateChanges = false;
+                if (category in prevFilteringData.storage) {
+                    if (key in prevFilteringData.storage[category]) {
+                        if (value !== prevFilteringData.storage[category][key] && typeof value === 'undefined') {
+                            hasFilterStateChanges = true;
                         }
+                    } else {
+                        console.error(`Filter key "${key}" doesn't exist in category "${category}".`);
                     }
-                }));
                 } else {
-                    console.error(`Filter key "${key}" doesn't exist in category "${category}".`);
+                    console.error(`Filter category "${category}" doesn't exist`);
                 }
-            } else {
-                console.error(`Filter category "${category}" doesn't exist`)
-            }
+
+                if (hasFilterStateChanges) {
+                    return {
+                        ...prevFilteringData,
+                        storage: {
+                            ...prevFilteringData.storage,
+                            [category]: {
+                                ...prevFilteringData.storage[category],
+                                [key]: value
+                            }
+                        }
+                    };
+                }
+                return prevFilteringData; // No change to filteringData if no new brands
+            });
 
         }
 
     });
     
     
+    // I need a function which would update the filteringData.storage taking the url parameters into account
 
-    // console.log(filteringData.storage);
-    
+    // useEffect(() => {
+
+    //     if (location.search) {
+    //         // ?brand=Google
+    //         const params = new URLSearchParams(location.search);
+    //         filteringData.create("brand", params.get("brand"));
+    //         filteringData.set("brand", params.get("brand"), true);
+    //         console.log(filteringData.storage);
+    //         // filteringData.set("brand", params.get("brand"), true);
+    //     }
+
+    // });
+
+    // filteringData.set("brand", "Samsung", false);
+    // filteringData.create("brand", "LG");
+    // console.log(filteringData.storage);    
 
     useEffect(() => {
         // frontend sends a complex request with multiple parameters, backend returns a set of items for a specific page, sorting, and filters
@@ -100,6 +156,8 @@ function AllProducts() {
         // while page and sorting will exist in url all the time, filters will not necessarily be there
         // "&brand=Samsung+Apple+Google"
         // now my filter params shoud be defined by searching for true values in filteringData.storage
+        
+
         const filterParamsURL = () => {
             let filterParams = "";
             for (const category in filteringData.storage) {
@@ -109,12 +167,13 @@ function AllProducts() {
                     }
                 }
             }
+            // console.log(filterParams);
             return filterParams;
-        } 
+        }
 
         const url = `http://localhost:3001/products?page=${current_page}&sorting=${sortingBy}`+filterParamsURL();
 
-        console.log(url);
+        // console.log(url);
 
         fetch(url)
             .then(response => response.json())
@@ -159,7 +218,7 @@ function AllProducts() {
             })
             .catch(error => console.error('Error:', error));
 
-    }, [current_page, sortingBy, filteringData.storage]); // Added filteringData.storage
+    }, [current_page, sortingBy, filteringData.storage, location]); // Added filteringData.storage
     // it's not right to trigger re-rendering every time useEffect is called because useEffect contributes to changes in filteringDataitself
     // function set should trigger re-rendering exclusively
 

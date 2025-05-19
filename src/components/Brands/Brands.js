@@ -13,6 +13,7 @@ function Brands() {
     // ];
 
     const brandData = {
+        // the current object defines which brand cards will be displayed in Brands component – it also defines imges and filtering keys
         apple: {
             image: "./media/brands/brands-apple.svg",
             filterKey: "Apple"
@@ -52,16 +53,8 @@ function Brands() {
 
                         return (
                             <Link
-                                to={{
-                                    pathname: '/all-products',
-                                    state: {
-                                        filter: {
-                                            brand: {
-                                                [filterKey]: true
-                                            }
-                                        }
-                                    }
-                                }}
+                                // 'to' prop should send just brand to the destination
+                                to={`/all-products` + (filterKey ? `?brand=${filterKey}` : "")}
                                 key={filterKey}
                                 >
                                 <BrandItem key={filterKey} img_path={image} />
