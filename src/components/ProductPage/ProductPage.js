@@ -79,7 +79,7 @@ function ProductPage() {
         [
             "Processor",
             [
-                ["Chipset", specs_response.cpu_namecs_response],
+                ["Chipset", specs_response.cpu_name],
                 ["Architecture", `${specs_response.cpu_technology}nm`]
             ]
         ],
@@ -113,7 +113,8 @@ function ProductPage() {
                 ["NFC", ((specs_response.conn_nfc !== 0) ? "Yes" : "No")]
             ]
         ]
-    ]
+    ];
+    
 
     function specsContructor(array) {
 
