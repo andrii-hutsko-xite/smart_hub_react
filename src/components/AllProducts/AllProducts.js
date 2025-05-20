@@ -11,8 +11,6 @@ import Checkbox from '../Checkbox/Checkbox';
 
 function AllProducts() {
 
-    console.log("this component has been rendered");
-
     // Setting states
     const [response, setResponse] = useState([]);
     const [total_items, setTotal] = useState(0);
@@ -38,113 +36,96 @@ function AllProducts() {
         //     Google: false
         // }
         storage: {},
-        // create – creates a new category with a new key inside and it's default value is false
-        create: function(category, key) {
-            setFilteringData(prevFilteringData => {
-                const newFilterCategories = {};
-                let hasNewFilterKeys = false;
-                if (category) {
-                    if (!prevFilteringData.storage[category] || typeof prevFilteringData.storage[category][key] === 'undefined') {
-                        newFilterCategories[key] = false; // Default to not checked
-                        hasNewFilterKeys = true;
-                    }
-                }
-
-                if (hasNewFilterKeys) {
-                    return {
-                        ...prevFilteringData,
-                        storage: {
-                            ...prevFilteringData.storage,
-                            brand: {
-                                ...(prevFilteringData.storage[category] || {}), // Preserve existing brands
-                                ...newFilterCategories // Add new brands
-                            }
-                        }
-                    };
-                }
-                return prevFilteringData; // No change to filteringData if no new brands
-            });
-        },
         set: function(category, key, value) {
-            // first we need to check if such a category and a key exist
-            // once the necessary category and the key are detected, a setting function is being called
-            // calling this function should initiate fetching data from backend and some components re-render
-            // thre should be a difference between alavailable items and filtered items in terms what is being shown to users
 
+            // PARAMETERS:
+            // catergory – filtering category in filteringData.storage, e.g. "brand", "price", "rating", etc.
+            // key – category key, e.g. category "brand" can have following keys: "Samsung", "Apple", "Google", etc.
+            // value – key value, any given key might have the value of either true or false, which defines whether the filter is active or not
 
-            // if (category in this.storage) {
-            //     if (key in this.storage[category]) {
-            //         setFilteringData(prevData => {
-            //             let hasNewFilterValues = false;
-            //             return (
-            //                 {
-            //                     ...prevData,
-            //                     storage: {
-            //                         ...prevData.storage,
-            //                         [category]: {
-            //                             ...prevData.storage[category],
-            //                             [key]: value
-            //                         }
-            //                     }
-            //                 }
-            //             )
-                        
-            //     });
-            //     } else {
-            //         console.error(`Filter key "${key}" doesn't exist in category "${category}".`);
+            // STORAGE STRUCTURE:
+            // storage: {
+            //     brand: {
+            //         Samsung: false,
+            //         Apple: false,
+            //         Google: false
             //     }
-            // } else {
-            //     console.error(`Filter category "${category}" doesn't exist`)
-            // }
 
-            setFilteringData(prevFilteringData => {
-                let hasFilterStateChanges = false;
-                if (category in prevFilteringData.storage) {
-                    if (key in prevFilteringData.storage[category]) {
-                        if (value !== prevFilteringData.storage[category][key] && typeof value === 'undefined') {
-                            hasFilterStateChanges = true;
+            // 1. DETECTING DIFFERENCES
+            // The function checks if the arguments seem to make changes to the filteringData.storage
+            // What can be changed: if category and key match, only value can be changed;
+            // If category or/and key is uknown, then we create new category or/and key with a default value of false
+
+            let changedCategory = false; // if true, setup a new category with provided key and default value of false
+            let changedKey = false; // if true, setup a new key in the defined category with a default value of false
+            let changedValue = false; // if true, assign suggested value to the existing key
+
+            if (typeof category !== null && typeof category !== 'undefined') {
+                if (this.storage.hasOwnProperty(category)) {
+                    if (typeof key !== null && typeof key !== 'undefined') {
+                        if (this.storage[category].hasOwnProperty(key)) {
+                            if (typeof value !== null && typeof value !== 'undefined') {
+                                if (this.storage[category][key] !== value) {
+                                    changedValue = true;
+                                }
+                            }
+                            // value is not a reuired parameter
+                        } else {
+                            changedKey = true;
                         }
                     } else {
-                        console.error(`Filter key "${key}" doesn't exist in category "${category}".`);
+                        console.error('Key is not valid');
                     }
                 } else {
-                    console.error(`Filter category "${category}" doesn't exist`);
+                    changedCategory = true;
                 }
+            } else {
+                console.error('Category is either null or undefined');
+            }
 
-                if (hasFilterStateChanges) {
+            // console.log(`Category changed: ${changedCategory}; Key changed: ${changedKey}; Value changed: ${changedValue}`);
+
+            setFilteringData(prevData => {
+                if (changedCategory) {
                     return {
-                        ...prevFilteringData,
+                        ...prevData,
                         storage: {
-                            ...prevFilteringData.storage,
+                            ...prevData.storage,
                             [category]: {
-                                ...prevFilteringData.storage[category],
                                 [key]: value
                             }
                         }
-                    };
+                    }
+                } else if (changedKey) {
+                    return {
+                        ...prevData,
+                        storage: {
+                            ...prevData.storage,
+                            [category]: {
+                                ...prevData.storage[category],
+                                [key]: false
+                            }
+                        }
+                    }
+                } else if (changedValue) {
+                    return {
+                        ...prevData,
+                        storage: {
+                            ...prevData.storage,
+                            [category]: {
+                                ...prevData.storage[category],
+                                [key]: value
+                            }
+                        }
+                    }
+                } else {
+                    return prevData;
                 }
-                return prevFilteringData; // No change to filteringData if no new brands
             });
 
         }
 
     });
-    
-    
-    // I need a function which would update the filteringData.storage taking the url parameters into account
-
-    // useEffect(() => {
-
-    //     if (location.search) {
-    //         // ?brand=Google
-    //         const params = new URLSearchParams(location.search);
-    //         filteringData.create("brand", params.get("brand"));
-    //         filteringData.set("brand", params.get("brand"), true);
-    //         console.log(filteringData.storage);
-    //         // filteringData.set("brand", params.get("brand"), true);
-    //     }
-
-    // });
 
     // filteringData.set("brand", "Samsung", false);
     // filteringData.create("brand", "LG");
@@ -185,8 +166,18 @@ function AllProducts() {
                 // if filteringData.storage is a dependency of this useEffect.
 
                 data.filtering.brands.forEach(brandName => {
-                    filteringData.create("brand", brandName);
+                    // filteringData.create("brand", brandName);
+                    filteringData.set("brand", brandName);
                 });
+
+                if (location.search) {
+                    // ?brand=Google
+                    const params = new URLSearchParams(location.search);
+                    filteringData.set("brand", params.get("brand"), true);
+                }
+
+                console.log(filteringData.storage);
+                
                 
                 // setFilteringData(prevFilteringData => {
                 //     const newBrandStates = {};
