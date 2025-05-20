@@ -3,7 +3,7 @@ import Header from '../Header/Header';
 import ItemCard from '../ItemCard/ItemCard';
 import "./AllProducts.css";
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import PaginationBox from '../PaginationBox/PaginationBox';
 import Footer from '../Footer/Footer';
 import Dropdown from '../Dropdown/Dropdown';
@@ -16,25 +16,34 @@ function AllProducts() {
     const [total_items, setTotal] = useState(0);
     const [current_page, setPage] = useState(1);
     const [sortingBy, setSorting] = useState("popularity");
-    const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
 
 
     // Settings filtering states
-    // The AllProducts component should manage a list of all available filtering items...
-    // ... and the list showing which filters are applied
-    // I already have a mechanism which figures out which brands are available for filtering – backend is sending
+    // The AllProducts component manages the list of available and active filters
+    // Front-end places an order indicating all details – back-end serves.
+    // To display filter options, back-end must send options to front-end.
+    // all-products/ page should rely on URL parameters
 
-    // for filtering, we nned to distribute items between pages on front-end, rather than receiving already served portions from back-end, but it's not sufficient for large amounts of products
-    // let's change our backend so that it understands the difference between totally available items and items it needs to include into response
-    // also, it would be great to tell the backend how many items per page we want 
+    /*
+
+    There is a few entities: filteringData.storage, URL params, actual back-end response
+    
+    1. Font-end asks for all itmes for page 1, sorted by popularity and receives the items
+    2. In order to display filters, fron-end also requests available filter categories and keys 
+    3. Back-end sends the available filter categories and keys
+
+    filteringData.storage keeps track of what filters are available and applied
+    it is empty before front-end gets any filtering data from back-end
+    do we need both filteringData.storage and url parameters?
+    we need filteringData.storage to keep track of possible filters + we need URL params to allow filter ingestion from outside
+    then filteringData.storage and URL parameters should perfectly agree
+
+    
+    */
+
 
     const [filteringData, setFilteringData] = useState({
-
-        // storage contains a list of all filters in the format:
-        // brand: {
-        //     Samsung: false,
-        //     Google: false
-        // }
         storage: {},
         set: function(category, key, value) {
 
@@ -83,8 +92,6 @@ function AllProducts() {
                 console.error('Category is either null or undefined');
             }
 
-            // console.log(`Category changed: ${changedCategory}; Key changed: ${changedKey}; Value changed: ${changedValue}`);
-
             setFilteringData(prevData => {
                 if (changedCategory) {
                     return {
@@ -107,7 +114,7 @@ function AllProducts() {
                             }
                         }
                     }
-                } else if (changedValue) {
+                } else if (changedValue) {                    
                     return {
                         ...prevData,
                         storage: {
@@ -126,10 +133,6 @@ function AllProducts() {
         }
 
     });
-
-    // filteringData.set("brand", "Samsung", false);
-    // filteringData.create("brand", "LG");
-    // console.log(filteringData.storage);    
 
     useEffect(() => {
         // frontend sends a complex request with multiple parameters, backend returns a set of items for a specific page, sorting, and filters
@@ -166,50 +169,18 @@ function AllProducts() {
                 // if filteringData.storage is a dependency of this useEffect.
 
                 data.filtering.brands.forEach(brandName => {
-                    // filteringData.create("brand", brandName);
                     filteringData.set("brand", brandName);
                 });
 
-                if (location.search) {
-                    // ?brand=Google
-                    const params = new URLSearchParams(location.search);
-                    filteringData.set("brand", params.get("brand"), true);
+                if (searchParams) {
+                    filteringData.set("brand", searchParams.get("brand"), true);
                 }
 
-                console.log(filteringData.storage);
-                
-                
-                // setFilteringData(prevFilteringData => {
-                //     const newBrandStates = {};
-                //     let hasNewBrands = false;
-                //     if (data.filtering && data.filtering.brands) {
-                //         data.filtering.brands.forEach(brandName => {
-                //             // Only add if not already present in the 'brand' category
-                //             if (!prevFilteringData.storage.brand || typeof prevFilteringData.storage.brand[brandName] === 'undefined') {
-                //                 newBrandStates[brandName] = false; // Default to not checked
-                //                 hasNewBrands = true;
-                //             }
-                //         });
-                //     }
-
-                //     if (hasNewBrands) {
-                //         return {
-                //             ...prevFilteringData,
-                //             storage: {
-                //                 ...prevFilteringData.storage,
-                //                 brand: {
-                //                     ...(prevFilteringData.storage.brand || {}), // Preserve existing brands
-                //                     ...newBrandStates // Add new brands
-                //                 }
-                //             }
-                //         };
-                //     }
-                //     return prevFilteringData; // No change to filteringData if no new brands
-                // });
             })
             .catch(error => console.error('Error:', error));
 
-    }, [current_page, sortingBy, filteringData.storage, location]); // Added filteringData.storage
+    }, [current_page, sortingBy, filteringData.storage, searchParams]);
+    // Added filteringData.storage
     // it's not right to trigger re-rendering every time useEffect is called because useEffect contributes to changes in filteringDataitself
     // function set should trigger re-rendering exclusively
 
