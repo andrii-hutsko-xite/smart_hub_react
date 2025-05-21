@@ -21,6 +21,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.json());
+
 // Connect to the database
 const db = new sqlite3.Database('./main.db', (err) => {
     if (err) {
@@ -186,6 +188,27 @@ app.get('/product-specs/:id', (req, res) => {
             res.json(row);
         }
     });
+
+});
+
+app.post('/login', (req, res) => {
+
+    const {email, password} = req.body;
+
+    const query = 'SELECT * FROM users WHERE email = ? AND password = ?';
+
+    if (req.body) {
+        db.get(query, [email, password], (err, row) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Error fetching data');
+        } else if (!row) {
+            res.status(404).send('User not found');
+        } else {
+            res.json(row);
+        }
+    });
+    }
 
 });
 

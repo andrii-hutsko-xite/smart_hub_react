@@ -41,7 +41,9 @@ function Header() {
                     </Link>
                     <div className="controls">
                         <input type="text" placeholder="Search" />
-                        <button>Log in</button>
+                        <Link to="/login">
+                            <button>Log in</button>
+                        </Link>
                     </div>
                 </div>
             </div>
