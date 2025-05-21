@@ -1,8 +1,7 @@
-import Header from "../Header/Header";
-import "./LoginPage.css";
-import { useRef } from "react";
+import "./LoginPopup.css";
+import { useEffect, useRef } from "react";
 
-function LoginPage() {
+function LoginPopup({selfClose}) {
 
     const inputEmail = useRef();
     const inputPassword = useRef();
@@ -43,20 +42,34 @@ function LoginPage() {
 
     }
 
+    useEffect(() => {
+
+        const handleKeyUp = (event) => {
+            if (event.key === "Escape") {
+                selfClose();
+            }
+        }
+
+        window.addEventListener('keyup', handleKeyUp);
+
+        return () => {
+            window.removeEventListener('keyup', handleKeyUp);
+        }
+
+    }, []);
+
+    
+
     return (
-        <div className="App">
-            <Header />
-            <div className="main-content">
-                <h1>Login Page</h1>
-                <div className="inputs">
-                    <input type="email" ref={inputEmail} placeholder="Email"></input>
-                    <input type="password" ref={inputPassword} placeholder="Password"></input>
-                </div>
-                <button onClick={() => beginLoginRoutine()}>Login</button>
+        <div className="popup-container">
+            <div className="login-popup-title">Log In</div>
+            <div className="login-popup-content">
+                <input type="email" placeholder="email" />
+                <input type="password" placeholder="password" />
             </div>
         </div>
     )
 
-}
+};
 
-export default LoginPage;
+export default LoginPopup;
