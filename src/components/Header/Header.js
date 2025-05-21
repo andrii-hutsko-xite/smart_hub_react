@@ -1,10 +1,13 @@
 import "./Header.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import LoginPopup from "../LoginPopup/LoginPopup";
 
 function Header() {
 
     const [header_detached, setHeader] = useState(false);
+    const [isLoginDisplayed, setLoginDisplayed] = useState(false);
+    
 
     useEffect(() => {
         function checkForHeader() {
@@ -25,7 +28,11 @@ function Header() {
             window.removeEventListener("scroll", checkForHeader)
         }
 
-    }, [])
+    }, []);
+
+    function toggleLogin() {
+        setLoginDisplayed(!isLoginDisplayed);
+    }
 
     return (
         <header className={header_detached ? "ontop" : "embeded"}>
@@ -41,9 +48,8 @@ function Header() {
                     </Link>
                     <div className="controls">
                         <input type="text" placeholder="Search" />
-                        <Link to="/login">
-                            <button>Log in</button>
-                        </Link>
+                        <button className="login-button" onClick={() => {toggleLogin()}}>Log in</button>
+                        {(isLoginDisplayed) ? (<LoginPopup selfClose={() => {setLoginDisplayed(false)}}></LoginPopup>) : null}
                     </div>
                 </div>
             </div>

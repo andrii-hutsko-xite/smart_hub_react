@@ -16,8 +16,6 @@ function Banner() {
     const [current_banner, updateBanner] = useState(0);
     const [cursorOverBanner, setCursorOverBanner] = useState(false);
 
-    console.log(cursorOverBanner);
-
     return (
         <div className="banner">
             <div className="banner-image-container">

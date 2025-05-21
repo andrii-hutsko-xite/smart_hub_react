@@ -8,6 +8,7 @@ header {
     padding-bottom: 24px;
     background-color: #FFFFFF;
     box-sizing: border-box;
+    z-index: 1;
 
     .content {
         
@@ -41,6 +42,10 @@ header {
                 display: flex;
                 flex-direction: row;
                 gap: 12px;
+
+                .login-button {
+                    anchor-name: --login-button;
+                }
     
             }
 
