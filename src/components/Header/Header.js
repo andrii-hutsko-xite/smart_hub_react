@@ -2,11 +2,13 @@ import "./Header.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import LoginPopup from "../LoginPopup/LoginPopup";
+import Button from "../Button/Button";
 
 function Header() {
 
     const [header_detached, setHeader] = useState(false);
     const [isLoginDisplayed, setLoginDisplayed] = useState(false);
+    const [isUserLogged, setUserLogged] = useState(false);
     
 
     useEffect(() => {
@@ -48,7 +50,18 @@ function Header() {
                     </Link>
                     <div className="controls">
                         <input type="text" placeholder="Search" />
-                        <button className="login-button" onClick={() => {toggleLogin()}}>Log in</button>
+                        {
+                            isUserLogged ? (
+                                <>
+                                    <Button type="secondary" text="0"/>
+                                    <Button type="secondary" text="0"/>
+                                    <Button type="secondary" text="Andrii"/>
+                                </>
+                            ) : (
+                                <Button buttonClass="login-button" type="secondary" text="Log In" onClickAction={() => {toggleLogin()}}/>
+                            )
+                        }
+                        {/* <button className="login-button" onClick={() => {toggleLogin()}}>Log in</button> */}
                         {(isLoginDisplayed) ? (<LoginPopup selfClose={() => {setLoginDisplayed(false)}}></LoginPopup>) : null}
                     </div>
                 </div>

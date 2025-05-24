@@ -1,6 +1,6 @@
 import "./Button.css";
 
-function Button({ type, text, icon_left, icon_right }) {
+function Button({ buttonClass = null, type, text, iconLeft, iconRight, onClickAction, passedStyle }) {
 
     const button_types = {
         "primary": "button-type-primary",
@@ -9,9 +9,14 @@ function Button({ type, text, icon_left, icon_right }) {
     }
 
     return (
-        <button className={`button-container ${button_types[type]} ${(text) ? "is-text" : "no-text"}`}>
+        <button
+            className={`button-container ${button_types[type]} ${(text) ? "is-text" : "no-text"} ${buttonClass}`}
+            onClick={onClickAction}
+            style={passedStyle}
+        >
+            {iconLeft}
             {text}
-            {icon_right}
+            {iconRight}
         </button>
     )
 

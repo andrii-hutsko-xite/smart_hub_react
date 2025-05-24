@@ -1,7 +1,11 @@
+import Button from "../Button/Button";
+import InputText from "../InputText/InputText";
 import "./LoginPopup.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function LoginPopup({selfClose}) {
+
+    const [emailError, setEmailError] = useState(null);
 
     const inputEmail = useRef();
     const inputPassword = useRef();
@@ -9,13 +13,12 @@ function LoginPopup({selfClose}) {
     function validateEmail(input) {
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
         return emailRegex.test(input.current.value);
 
     }
 
     function beginLoginRoutine() {
-
+        
         if (validateEmail(inputEmail)) {
 
             const loginData = {
@@ -38,9 +41,12 @@ function LoginPopup({selfClose}) {
                     console.log(error);
                 })
 
+        } else {
+            setEmailError("Invalid email");
         }
 
     }
+    
 
     useEffect(() => {
 
@@ -56,7 +62,7 @@ function LoginPopup({selfClose}) {
             window.removeEventListener('keyup', handleKeyUp);
         }
 
-    }, []);
+    });
 
     
 
@@ -64,8 +70,20 @@ function LoginPopup({selfClose}) {
         <div className="popup-container">
             <div className="login-popup-title">Log In</div>
             <div className="login-popup-content">
-                <input type="email" placeholder="email" />
-                <input type="password" placeholder="password" />
+                <InputText
+                    inputType="email"
+                    inputLabel="Email"
+                    ref={inputEmail}
+                    errorText={(emailError) ? emailError : null}/>
+                <InputText
+                    inputType="password"
+                    inputLabel="Password"
+                    ref={inputPassword}
+                />
+                {/* <input type="password" placeholder="password" ref={inputPassword} /> */}
+                <a href="./">Forgot password?</a>
+                <a href="./">Create account</a>
+                <Button type="primary" text="Log In" onClickAction={beginLoginRoutine} passedStyle={{flex: "0 0 auto"}}></Button>
             </div>
         </div>
     )
