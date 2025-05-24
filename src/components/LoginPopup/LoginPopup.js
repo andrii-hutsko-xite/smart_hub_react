@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 function LoginPopup({selfClose}) {
 
     const [emailError, setEmailError] = useState(null);
-
+    
     const inputEmail = useRef();
     const inputPassword = useRef();
 
