@@ -1,14 +1,17 @@
 import "./Header.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import Button from "../Button/Button";
+import InputText from "../InputText/InputText";
 
 function Header() {
 
     const [header_detached, setHeader] = useState(false);
     const [isLoginDisplayed, setLoginDisplayed] = useState(false);
     const [isUserLogged, setUserLogged] = useState(false);
+
+    const inputSearch = useRef();
     
 
     useEffect(() => {
@@ -49,7 +52,11 @@ function Header() {
                         <img src='/media/logo.svg' alt='logo'/>
                     </Link>
                     <div className="controls">
-                        <input type="text" placeholder="Search" />
+                        <InputText
+                            inputPlaceholder="Search"
+                            inputType="text"
+                            ref={inputSearch}
+                        />
                         {
                             isUserLogged ? (
                                 <>

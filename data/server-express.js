@@ -3,6 +3,7 @@ const express = require('express');
 
 // Import Sqlite
 const sqlite3 = require('sqlite3').verbose();
+const jwt = require('jsonwebtoken');
 
 // Initialize the app
 const app = express();
@@ -46,7 +47,7 @@ app.get('/products?', (req, res) => {
 
     const { page, sorting, brand } = req.query;
 
-    console.log("Received brand query param:", brand); // For debugging
+    // console.log("Received brand query param:", brand); // For debugging
 
     const items_per_page = 16;
     let total_records;
@@ -191,6 +192,8 @@ app.get('/product-specs/:id', (req, res) => {
 
 });
 
+const secretKey = "nS8l3m2A09dN76dfS21cDm87SqQnc92";
+
 app.post('/login', (req, res) => {
 
     const {email, password} = req.body;
@@ -198,16 +201,26 @@ app.post('/login', (req, res) => {
     const query = 'SELECT * FROM users WHERE email = ? AND password = ?';
 
     if (req.body) {
-        db.get(query, [email, password], (err, row) => {
-        if (err) {
-            console.error(err.message);
-            res.status(500).send('Error fetching data');
-        } else if (!row) {
-            res.status(404).send('User not found');
-        } else {
-            res.json(row);
-        }
-    });
+        db.get(query, [email, password], (err, user) => {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send('Error fetching data');
+            } else if (!user) {
+                res.status(401).json({ message: 'Invalid credentials' });
+            } else {
+
+                const payload = {
+                    userId: user.id,
+                    email: user.email
+                };
+                
+                const token = jwt.sign(payload, secretKey, { expiresIn: '1h' }); // Set an expiration time
+
+                // 4. Send the JWT back to the client in the JSON response
+                res.status(200).json({ token });
+                
+            }
+        });
     }
 
 });
