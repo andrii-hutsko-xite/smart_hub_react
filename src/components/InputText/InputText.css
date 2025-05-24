@@ -1,0 +1,79 @@
+.input-container {
+
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #FCFCFC;
+    cursor: pointer;
+
+    label {
+        font-size: 18px;
+    }
+
+    .input-body {
+
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-self: stretch;
+        height: 40px;
+        padding: 0 12px;
+        border-radius: 12px;
+        box-sizing: border-box;
+        border: 2px solid #DADADA;
+        cursor: pointer;
+        z-index: 2;
+
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 17px;
+            background-color: transparent;
+        }
+
+    }
+
+    .input-body:focus-within {
+
+        border: 2px solid #0080D8;
+        background-color: #FCFCFC;
+
+    }
+
+    .input-body:focus-within::after {
+        content: "";
+        position: absolute;
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        top: -6px;
+        left: -6px;
+        z-index: 0;
+        background-color: transparent;
+        border: 4px solid #C8DBFF;
+        /* border: 4px solid red; */
+        border-radius: 16px;
+    }
+
+    label {
+        cursor: pointer;
+    }
+
+    .error-text {
+        color: #F80B62;
+        font-size: 17px;
+    }
+
+}
+
+.input-container:hover .input-body {
+    background-color: #EDEDED;
+    cursor: text;
+}
+
+.input-container:hover:focus-within .input-body {
+    background-color: #FCFCFC;
+    cursor: text;
+}
