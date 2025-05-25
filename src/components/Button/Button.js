@@ -5,7 +5,8 @@ function Button({ buttonClass = null, type, text, iconLeft, iconRight, onClickAc
     const button_types = {
         "primary": "button-type-primary",
         "secondary": "button-type-secondary",
-        "framed": "button-type-framed"
+        "framed": "button-type-framed",
+        "text": "button-type-text"
     }
 
     return (

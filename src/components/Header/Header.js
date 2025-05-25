@@ -1,7 +1,8 @@
 import "./Header.css";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import LoginPopup from "../LoginPopup/LoginPopup";
+import PopupLogin from "../PopupLogin/PopupLogin";
+import PopupAccount from "../PopupAccount/PopupAccount";
 import Button from "../Button/Button";
 import InputText from "../InputText/InputText";
 
@@ -9,7 +10,8 @@ function Header() {
 
     const [header_detached, setHeader] = useState(false);
     const [isLoginDisplayed, setLoginDisplayed] = useState(false);
-    const [isUserLogged, setUserLogged] = useState(false);
+    const [isAccountDisplayed, setAccountDisplayed] = useState(false);
+    const [isUserLogged, setUserLogged] = useState(((localStorage.getItem('authToken') !== null) ? true : false));
 
     const inputSearch = useRef();
     
@@ -39,6 +41,11 @@ function Header() {
         setLoginDisplayed(!isLoginDisplayed);
     }
 
+    function toggleAccount() {
+        setAccountDisplayed(!isAccountDisplayed);
+    }
+    
+
     return (
         <header className={header_detached ? "ontop" : "embeded"}>
             <div className="content">
@@ -62,14 +69,20 @@ function Header() {
                                 <>
                                     <Button type="secondary" text="0"/>
                                     <Button type="secondary" text="0"/>
-                                    <Button type="secondary" text="Andrii"/>
+                                    <Button
+                                        type="secondary"
+                                        text="Andrii"
+                                        onClickAction={() => toggleAccount()}
+                                        buttonClass="account-button"
+                                    />
                                 </>
                             ) : (
                                 <Button buttonClass="login-button" type="secondary" text="Log In" onClickAction={() => {toggleLogin()}}/>
                             )
                         }
                         {/* <button className="login-button" onClick={() => {toggleLogin()}}>Log in</button> */}
-                        {(isLoginDisplayed) ? (<LoginPopup selfClose={() => {setLoginDisplayed(false)}}></LoginPopup>) : null}
+                        {(isLoginDisplayed) ? (<PopupLogin selfClose={() => {setLoginDisplayed(false)}}></PopupLogin>) : null}
+                        {(isAccountDisplayed) ? (<PopupAccount selfClose={() => {setAccountDisplayed(false)}}></PopupAccount>) : null}
                     </div>
                 </div>
             </div>

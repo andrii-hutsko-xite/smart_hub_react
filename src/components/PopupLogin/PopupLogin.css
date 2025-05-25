@@ -1,4 +1,4 @@
-.popup-container {
+.popup-container-login {
     position: absolute;
     top: anchor(--login-button bottom);
     left: anchor(--login-button right);
