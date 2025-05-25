@@ -67,17 +67,32 @@ function Header() {
                         {
                             isUserLogged ? (
                                 <>
-                                    <Button type="secondary" text="0"/>
-                                    <Button type="secondary" text="0"/>
+                                    <Button
+                                        type="secondary"
+                                        text="0"
+                                        iconLeft={"shopping"}
+                                    />
+                                    <Button
+                                        type="secondary"
+                                        text="0"
+                                        iconLeft={"favorite"}
+                                    />
                                     <Button
                                         type="secondary"
                                         text="Andrii"
                                         onClickAction={() => toggleAccount()}
                                         buttonClass="account-button"
+                                        iconLeft={"user"}
                                     />
                                 </>
                             ) : (
-                                <Button buttonClass="login-button" type="secondary" text="Log In" onClickAction={() => {toggleLogin()}}/>
+                                <Button
+                                    buttonClass="login-button"
+                                    type="secondary"
+                                    text="Log In"
+                                    onClickAction={() => {toggleLogin()}}
+                                    iconLeft={"user"}
+                                />
                             )
                         }
                         {/* <button className="login-button" onClick={() => {toggleLogin()}}>Log in</button> */}

@@ -23,6 +23,7 @@ function ProductPage() {
     const [imgs_response, setImgsResponse] = useState([]);
     const [specs_response, setSpecs] = useState("Specs were not found");
 
+    window.scrollTo(0, 0); // Makes sure the window is never scrolled down
 
     // HTTP requests
     useEffect(() => {
@@ -165,8 +166,15 @@ function ProductPage() {
                     <Gallery images={imgs_response}/>
                     <div className="product-right-column">
                         <div className="product-actions">
-                            <Button type="primary" text="Add to cart" icon_right={<IconShoppingCart color={"#FCFCFC"} />} />
-                            <Button type="secondary" icon_right={<Favourite color={"#000000"} />} />
+                            <Button
+                                type="primary"
+                                text="Add to cart"
+                                iconRight={"shopping"}
+                            />
+                            <Button
+                                type="secondary"
+                                iconLeft={"favorite"}
+                            />
                         </div>
                         <div className="product-specs-container">
                             <h2>Specifications</h2>
