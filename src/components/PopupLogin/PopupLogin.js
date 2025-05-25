@@ -1,12 +1,12 @@
 import Button from "../Button/Button";
 import InputText from "../InputText/InputText";
-import "./LoginPopup.css";
+import "./PopupLogin.css";
 import { useEffect, useRef, useState } from "react";
 
-function LoginPopup({selfClose}) {
+function PopupLogin({ selfClose }) {
 
     const [emailError, setEmailError] = useState(null);
-    
+
     const inputEmail = useRef();
     const inputPassword = useRef();
 
@@ -18,15 +18,11 @@ function LoginPopup({selfClose}) {
     }
 
     function beginLoginRoutine() {
-        
         if (validateEmail(inputEmail)) {
-
             const loginData = {
                 email: inputEmail.current.value,
                 password: inputPassword.current.value
-            }
-
-            console.log(JSON.stringify(loginData));
+            };
 
             fetch('http://localhost:3001/login', {
                 method: 'POST',
@@ -35,16 +31,31 @@ function LoginPopup({selfClose}) {
                 },
                 body: JSON.stringify(loginData)
             })
-                .then(response => {
-                    console.log(response.json());
-                }, error => {
-                    console.log(error);
-                })
+            .then(response => {
+                // First, check if the response itself was successful (e.g., status 200-299)
+                if (!response.ok) {
+                    // If not successful, parse the error response and throw an error
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || 'Login failed');
+                    });
+                }
+                // If successful, parse the JSON body
+                return response.json();
+            })
+            .then(data => { // This 'data' is now the actual parsed JSON object
+                const token = data.token; // Access the 'token' property
+                localStorage.setItem('authToken', token);
+                window.location.reload();
+                // You might want to redirect the user here
+            })
+            .catch(error => { // Catch any errors from fetch or the .then() chain
+                console.error('Login error:', error.message);
+                setEmailError(error.message); // Display error to user
+            });
 
         } else {
             setEmailError("Invalid email");
         }
-
     }
     
 
@@ -64,10 +75,11 @@ function LoginPopup({selfClose}) {
 
     });
 
+    // localStorage.removeItem("authToken");
     
 
     return (
-        <div className="popup-container">
+        <div className="popup-container-login">
             <div className="login-popup-title">Log In</div>
             <div className="login-popup-content">
                 <InputText
@@ -90,4 +102,4 @@ function LoginPopup({selfClose}) {
 
 };
 
-export default LoginPopup;
+export default PopupLogin;

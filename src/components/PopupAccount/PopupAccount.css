@@ -1,0 +1,23 @@
+.popup-container {
+    position: absolute;
+    top: anchor(--account-button bottom);
+    left: anchor(--account-button right);
+    transform: translate(-100%, 5%);
+    width: 323px;
+    background: #C8DBFF;
+    border-radius: 22px;
+    padding: 12px 8px;
+    box-shadow: 0 4px 32px #0027A140;
+
+    .popup-content {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        padding: 24px 16px;
+        gap: 20px;
+        background-color: #FCFCFC;
+        border-radius: 16px;
+    }
+
+}
+

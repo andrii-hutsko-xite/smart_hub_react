@@ -216,6 +216,8 @@ app.post('/login', (req, res) => {
                 
                 const token = jwt.sign(payload, secretKey, { expiresIn: '1h' }); // Set an expiration time
 
+                console.log(token);
+
                 // 4. Send the JWT back to the client in the JSON response
                 res.status(200).json({ token });
                 

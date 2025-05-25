@@ -46,6 +46,10 @@ header {
                 .login-button {
                     anchor-name: --login-button;
                 }
+
+                .account-button {
+                    anchor-name: --account-button;
+                }
     
             }
 
