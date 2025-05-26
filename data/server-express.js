@@ -1,6 +1,9 @@
 // Import Express
 const express = require('express');
 
+// import auth middleware
+const authenticateToken = require('./middleware/authenticateToken');
+
 // Import Sqlite
 const sqlite3 = require('sqlite3').verbose();
 const jwt = require('jsonwebtoken');
@@ -224,6 +227,47 @@ app.post('/login', (req, res) => {
             }
         });
     }
+
+});
+
+app.post('/add-to-cart', authenticateToken, (req, res) => {
+
+    const userIdFromToken = req.user.userId;
+    const { product_id } = req.body;
+    const query = 'INSERT INTO shopping_cart (user_id, item_id, amount) VALUES (?, ?, ?)';
+
+    if (product_id) {
+        db.run(query, [userIdFromToken, product_id, 1], function(err) { // Use db.run for INSERT
+            if (err) {
+                console.error("Error adding to cart:", err.message);
+                return res.status(500).send('Failed to add item to cart'); // Send an error response
+            }
+            // 'this.changes' will contain the number of rows inserted (1 in this case)
+            console.log(`Item added to cart. Rows affected: ${this.changes}`);
+            res.status(200).send('Item has been added to cart'); // Send a success response
+        });
+    } else {
+        res.status(400).send('Product ID is required');
+    }
+
+    res.status(200).send('Item has been added to cart');
+});
+
+app.get('/get-user-cart', authenticateToken, (req, res) => {
+
+    const query = 'SELECT COUNT(*) AS count FROM shopping_cart WHERE user_id = ?';
+
+    const userIdFromToken = req.user.userId;
+    
+    db.get(query, [userIdFromToken], (err, row) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Error fetching data');
+        } else {
+            console.log(row);
+            res.json(row);
+        }
+    });
 
 });
 

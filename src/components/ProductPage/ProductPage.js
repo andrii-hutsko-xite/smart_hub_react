@@ -16,7 +16,7 @@ function ProductPage() {
     // Breadcrumbs
     const location = useLocation();
 
-    const product_id = location.pathname.split("/")[2];    
+    const product_id = location.pathname.split("/")[2];
     
     // response results
     const [info_response, setInfoResponse] = useState("No items found");
@@ -129,7 +129,7 @@ function ProductPage() {
                             {
                                 section[1].map((row, index) => {
                                     return (
-                                        <tr className="product-table-row">
+                                        <tr className="product-table-row" key={index}>
                                             <th className="product-table-title">{row[0]}</th>
                                             <td className="product-table-cell">{row[1]}</td>
                                         </tr>
@@ -142,6 +142,26 @@ function ProductPage() {
             )
 
         });
+
+    }
+
+    function addToCart() {
+
+        const url = `http://localhost:3001/add-to-cart`;
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("authToken")}` // Include the Authorization header
+            },
+            body: JSON.stringify({
+                product_id: product_id
+            })
+        })
+            .then(response => {
+                console.log(response);
+            })
 
     }
 
@@ -170,6 +190,7 @@ function ProductPage() {
                                 type="primary"
                                 text="Add to cart"
                                 iconRight={"shopping"}
+                                onClickAction={() => addToCart()}
                             />
                             <Button
                                 type="secondary"

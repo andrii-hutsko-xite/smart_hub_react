@@ -12,6 +12,7 @@ function Header() {
     const [isLoginDisplayed, setLoginDisplayed] = useState(false);
     const [isAccountDisplayed, setAccountDisplayed] = useState(false);
     const [isUserLogged, setUserLogged] = useState(((localStorage.getItem('authToken') !== null) ? true : false));
+    const [userCart, setUserCart] = useState(0);
 
     const inputSearch = useRef();
     
@@ -44,6 +45,28 @@ function Header() {
     function toggleAccount() {
         setAccountDisplayed(!isAccountDisplayed);
     }
+
+    useEffect(() => {
+
+        if (isUserLogged) {
+
+            const url = 'http://localhost:3001/get-user-cart';
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setUserCart(data.count);
+                })
+
+        }
+
+    }, [isUserLogged]);
     
 
     return (
@@ -67,11 +90,15 @@ function Header() {
                         {
                             isUserLogged ? (
                                 <>
-                                    <Button
-                                        type="secondary"
-                                        text="0"
-                                        iconLeft={"shopping"}
-                                    />
+                                    <Link
+                                        to='/shopping-cart'
+                                    >
+                                        <Button
+                                            type="secondary"
+                                            text={userCart}
+                                            iconLeft={"shopping"}
+                                        />
+                                    </Link>
                                     <Button
                                         type="secondary"
                                         text="0"
