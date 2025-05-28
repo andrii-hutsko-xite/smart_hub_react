@@ -18,6 +18,7 @@ function PopupLogin({ selfClose }) {
     }
 
     function beginLoginRoutine() {
+
         if (validateEmail(inputEmail)) {
             const loginData = {
                 email: inputEmail.current.value,
@@ -56,6 +57,7 @@ function PopupLogin({ selfClose }) {
         } else {
             setEmailError("Invalid email");
         }
+        
     }
     
 

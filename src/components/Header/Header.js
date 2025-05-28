@@ -11,10 +11,18 @@ function Header() {
     const [header_detached, setHeader] = useState(false);
     const [isLoginDisplayed, setLoginDisplayed] = useState(false);
     const [isAccountDisplayed, setAccountDisplayed] = useState(false);
-    const [isUserLogged, setUserLogged] = useState(((localStorage.getItem('authToken') !== null) ? true : false));
-    const [userCart, setUserCart] = useState(0);
+    const [isUserLogged, setUserLogged] = useState(
+        ((localStorage.getItem('authToken') !== null) ? true : false)
+    );
+    const [userCart, setUserCart] = useState();
 
     const inputSearch = useRef();
+
+    function checkToken() {
+        if (localStorage.getItem('authToken') === null) {
+            
+        }
+    }
     
 
     useEffect(() => {

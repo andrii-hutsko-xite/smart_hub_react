@@ -3,6 +3,8 @@ const express = require('express');
 
 // import auth middleware
 const authenticateToken = require('./middleware/authenticateToken');
+// const createUser = require('./middleware/createUser');
+const issueRefreshToken = require('./middleware/refreshToken');
 
 // Import Sqlite
 const sqlite3 = require('sqlite3').verbose();
@@ -270,6 +272,8 @@ app.get('/get-user-cart', authenticateToken, (req, res) => {
     });
 
 });
+
+issueRefreshToken("d8mY");
 
 // Start the server on port 3000
 const PORT = 3001;
