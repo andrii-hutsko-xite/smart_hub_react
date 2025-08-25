@@ -46,8 +46,8 @@ function PopupLogin({ selfClose }) {
             .then(data => { // This 'data' is now the actual parsed JSON object
                 const token = data.token; // Access the 'token' property
                 localStorage.setItem('authToken', token);
-                window.location.reload();
-                // You might want to redirect the user here
+                // window.location.reload();
+                // I might want to close the Login popup here
             })
             .catch(error => { // Catch any errors from fetch or the .then() chain
                 console.error('Login error:', error.message);

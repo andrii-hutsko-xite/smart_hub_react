@@ -4,7 +4,8 @@ const express = require('express');
 // import auth middleware
 const authenticateToken = require('./middleware/authenticateToken');
 // const createUser = require('./middleware/createUser');
-const issueRefreshToken = require('./middleware/refreshToken');
+// import issueRefreshToken from './middleware/refreshToken.js';
+const { issueRefreshToken, revokeRefreshToken } = require('./middleware/refreshToken.js');
 
 // Import Sqlite
 const sqlite3 = require('sqlite3').verbose();
@@ -197,35 +198,32 @@ app.get('/product-specs/:id', (req, res) => {
 
 });
 
-const secretKey = "nS8l3m2A09dN76dfS21cDm87SqQnc92";
+// const secretKey = "nS8l3m2A09dN76dfS21cDm87SqQnc92";
 
 app.post('/login', (req, res) => {
 
     const {email, password} = req.body;
 
-    const query = 'SELECT * FROM users WHERE email = ? AND password = ?';
+    const query = 'SELECT `salt` FROM users WHERE email = ?';
+
+    console.log('Request to db about salt + userhas been created');
+
+    let salt = null;
 
     if (req.body) {
-        db.get(query, [email, password], (err, user) => {
+        db.get(query, email, (err, retrievedSalt) => {
             if (err) {
                 console.error(err.message);
                 res.status(500).send('Error fetching data');
-            } else if (!user) {
+            } else if (!retrievedSalt) {
                 res.status(401).json({ message: 'Invalid credentials' });
             } else {
-
-                const payload = {
-                    userId: user.id,
-                    email: user.email
-                };
-                
-                const token = jwt.sign(payload, secretKey, { expiresIn: '1h' }); // Set an expiration time
-
-                console.log(token);
-
-                // 4. Send the JWT back to the client in the JSON response
-                res.status(200).json({ token });
-                
+                salt = retrievedSalt.salt;
+                console.log(`User + salt has been found; Salt: ${retrievedSalt.salt}`);
+                if (salt) {
+                    const tryHash = password + salt;
+                    console.log(`The concatenated string is: ${tryHash}`);
+                }
             }
         });
     }
@@ -273,7 +271,7 @@ app.get('/get-user-cart', authenticateToken, (req, res) => {
 
 });
 
-issueRefreshToken("d8mY");
+// revokeRefreshToken("d8mY", "druyNLKz-Id7B-eXFt");
 
 // Start the server on port 3000
 const PORT = 3001;
