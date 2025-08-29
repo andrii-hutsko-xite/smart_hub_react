@@ -31,9 +31,9 @@ function Header() {
         <header className={header_detached ? "ontop" : "embeded"}>
             <div className="content">
                 <div className="links">
-                    <Link to="/delivery-and-payment">Delivery & Payment</Link>
-                    <Link to="/help">Help</Link>
-                    <Link to="/questions">FAQ</Link>
+                    <a href="./">Delivery & Payment</a>
+                    <a href="./">Help</a>
+                    <a href="./">FAQ</a>
                 </div>
                 <div className="main">
                     <Link to="/">
