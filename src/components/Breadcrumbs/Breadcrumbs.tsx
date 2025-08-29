@@ -29,19 +29,7 @@ function Breadcrumbs({ name } : {name?: string}) {
             "abcd": {
                 path: "",
                 name: name ?? ""
-            },
-            "delivery-and-payment": {
-                path: "/delivery-and-payment",
-                name: "Delivery and Payment"
-            },
-            "help": {
-                path: "/help",
-                name: "Help"
-            },
-            "questions": {
-                path: "/questions",
-                name: "FAQ"
-            },
+            }
 
         }
 
@@ -51,7 +39,7 @@ function Breadcrumbs({ name } : {name?: string}) {
 
         const processed_breadcrumbs = breadcrumbs.map((elem, index, array) => {
 
-            if (elem.length === 4 && elem !== "help") {
+            if (elem.length === 4) {
                 // It is ID
                 elem = "abcd";
             }
