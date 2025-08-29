@@ -1,7 +1,7 @@
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import "./TextPages.css";
+import "./ServicePages.css";
 import { Link } from "react-router-dom";
 
 function DeliveryAndPayment() {
@@ -23,9 +23,9 @@ function DeliveryAndPayment() {
 
                     <div className='h3-doc'>Shipping Options & Rates:</div>
 
-                    <ul>
-                        <li><b>Standard Delivery:</b> €15.00 | Estimated delivery in 3 business days.</li>
-                        <li><b>Express Delivery:</b> €35.00 | Estimated delivery in 1 business day.</li>
+                    <ul className='ul-doc'>
+                        <li className='li-doc'><b>Standard Delivery:</b> €15.00 | Estimated delivery in 3 business days.</li>
+                        <li className='li-doc'><b>Express Delivery:</b> €35.00 | Estimated delivery in 1 business day.</li>
                     </ul>
 
                     <i>Note: Shipping costs are calculated based on your location and will be displayed at checkout before you finalize your purchase.</i>
@@ -49,9 +49,9 @@ function DeliveryAndPayment() {
                     <div className='h3-doc'>Accepted Payment Methods:</div>
 
                     <ul>
-                        <li><b>Credit/Debit Cards:</b> We accept all major credit and debit cards, including Visa, MasterCard, American Express, and Discover.</li>
-                        <li><b>Online Wallets:</b> For a quick and secure checkout, you can pay with Apple Pay, Google Pay.</li>
-                        <li><b>Other options:</b> iDEAL, Bancontact, Sofort Banking.</li>
+                        <li className='li-doc'><b>Credit/Debit Cards:</b> We accept all major credit and debit cards, including Visa, MasterCard, American Express, and Discover.</li>
+                        <li className='li-doc'><b>Online Wallets:</b> For a quick and secure checkout, you can pay with Apple Pay, Google Pay.</li>
+                        <li className='li-doc'><b>Other options:</b> iDEAL, Bancontact, Sofort Banking.</li>
                     </ul>
 
                     <div className='h3-doc'>Security:</div>

@@ -1,3 +1,7 @@
+:root {
+    --body-font-size: 1.2rem;
+}
+
 .h1-doc {
     padding-top: 1.5rem;
     font-size: 3rem;
@@ -7,7 +11,7 @@
 .p-doc {
     padding-top: 1rem;
     /* padding-bottom: 1rem; */
-    font-size: 1rem;
+    font-size: var(--body-font-size);
     font-weight: 400;
     line-height: 160%;
 }
@@ -22,8 +26,17 @@
 
 .h3-doc {
     padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    /* padding-bottom: 0.5rem; */
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.2;
+}
+
+.ul-doc {
+    padding-top: 0;
+}
+
+.li-doc {
+    font-size: var(--body-font-size);
+    padding-bottom: 0.5rem;
 }

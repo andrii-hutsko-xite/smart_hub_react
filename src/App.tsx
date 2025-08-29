@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import AllProducts from "./components/AllProducts/AllProducts";
 import ProductPage from './components/ProductPage/ProductPage';
-import DeliveryAndPayment from './components/TextPages/DeliveryAndPayment';
-import Help from './components/TextPages/Help';
-import Questions from './components/TextPages/Questions';
+import DeliveryAndPayment from './components/ServicePages/DeliveryAndPayment';
+import Help from './components/ServicePages/Help';
+import Questions from './components/ServicePages/Questions';
 import { ReactElement } from 'react';
 
 function App(): ReactElement {
